@@ -53,7 +53,7 @@ const UserProfile: React.FC = () => {
   }
 
   if (!userData) {
-    return <p>Error loading user profile.</p>;
+    return <p>Error al cargar el perfil de usuario.</p>;
   }
 
   return (
