@@ -8,3 +8,7 @@
     flex-direction: column;
     align-items: center;
 }
+
+.margin-top{
+    margin-top: 20px;
+}

@@ -14,8 +14,10 @@ import {
   IonCol,
   IonText,
   IonSpinner,
+  IonChip
 } from '@ionic/react';
 import ProductCarousel from '../components/ProductCarousel'; // Importa el componente del carrusel
+import ImageCarousel from './ImageCarousel';
 
 interface Product {
   productoId: number;
@@ -36,6 +38,7 @@ interface Product {
 
 const ListaProductos: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
+  const [carouselProducts, setCarouselProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const history = useHistory();
 
@@ -43,9 +46,14 @@ const ListaProductos: React.FC = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch('http://localhost:5000/products/productos/mas-vendidos');
+        const response = await fetch('http://localhost:5000/products/');
         const data = await response.json();
         setProducts(data);
+
+        // Consumir la API para los productos del carrusel
+        const carouselResponse = await fetch('http://localhost:5000/products/productos/mas-vendidos'); // Cambia la URL a la de tu API de carrusel
+        const carouselData = await carouselResponse.json();
+        setCarouselProducts(carouselData);
       } catch (error) {
         console.error('Error fetching products:', error);
       } finally {
@@ -61,6 +69,13 @@ const ListaProductos: React.FC = () => {
     history.push(`/product/${productId}`);
   };
 
+  const imageUrls = [
+    '/assets/Images/oferta-slider-1.jpg',
+    '/assets/Images/oferta-slider-2.jpg',
+    '/assets/Images/oferta-slider-3.jpg',
+    // Agrega más URLs de imágenes aquí
+  ];
+
   if (loading) {
     return (
       <IonPage className="scroll-container">
@@ -74,15 +89,17 @@ const ListaProductos: React.FC = () => {
   return (
     <IonPage className='scroll-container'>
       <IonContent>
+        <ImageCarousel images={imageUrls} />
+
         {/* Agregar el carrusel arriba del listado de productos */}
-        <h2>Productos más vendidos</h2>
-        {products.length > 0 ? (
-          <ProductCarousel products={products} />
+        <IonChip outline={true} >Productos más vendidos</IonChip>
+        {carouselProducts.length > 0 ? (
+          <ProductCarousel products={carouselProducts} />
         ) : (
           <IonText color="danger">No hay productos disponibles</IonText>
         )}
 
-        <h2>Catálogo de productos</h2>
+        <IonChip outline={true} >Catálogo de productos</IonChip>
         {products.length === 0 ? (
           <IonText color="danger">No hay productos disponibles</IonText>
         ) : (

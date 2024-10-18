@@ -1,0 +1,7 @@
+/* ImageCarousel.css */
+.carousel-image {
+    width: 100%; /* Ajusta para que ocupe el ancho completo */
+    height: auto; /* Mantiene la proporción de la imagen */
+    object-fit: cover; /* Cubre el espacio sin deformar la imagen */
+  }
+  

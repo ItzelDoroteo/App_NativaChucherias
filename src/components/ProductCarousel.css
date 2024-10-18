@@ -1,0 +1,17 @@
+.img-card{
+    width: 60%;
+}
+
+.card-carrusel{
+    height: 300px;
+    max-height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.item-center{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

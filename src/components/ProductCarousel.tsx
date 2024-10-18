@@ -1,17 +1,18 @@
-// src/components/ProductCarousel.tsx
 import React from 'react';
+import { useHistory } from 'react-router';
+import { IonCard, IonCardContent, IonCardHeader, IonImg, IonGrid, IonRow, IonCol, IonButton, IonText } from '@ionic/react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import '../../node_modules/swiper/swiper-bundle.min.css';
-import '../../node_modules/swiper/swiper.min.css'
-
-// import './ProductCarousel.css'; 
+import '../../node_modules/swiper/swiper.min.css';
+import './ProductCarousel.css'
 
 interface Product {
   productoId: number;
   nombre: string;
   descripcion: string;
-  precio: number;
+  precioFinal: number;
   imagen: string;
+  ranking: number;
 }
 
 interface ProductCarouselProps {
@@ -19,21 +20,37 @@ interface ProductCarouselProps {
 }
 
 const ProductCarousel: React.FC<ProductCarouselProps> = ({ products }) => {
+  const history = useHistory();
+
+  const handleProductClick = (productId: number) => {
+    history.push(`/product/${productId}`);
+  };
+
   return (
     <Swiper
       spaceBetween={10}
-      slidesPerView={2} // Puedes ajustar cuántos productos mostrar por vista
+      slidesPerView={2} // Ajusta según tu diseño
       navigation
       pagination={{ clickable: true }}
       autoplay={{ delay: 3000 }}
     >
       {products.map((product) => (
         <SwiperSlide key={product.productoId}>
-          <div className="product-card">
-            <img src={product.imagen} alt={product.nombre} className="product-image" />
-            <h2>{product.nombre}</h2>
-            <p>{`$${product.precio}`}</p>
-          </div>
+          <IonCard className='card-carrusel' key={product.productoId} onClick={() => handleProductClick(product.productoId)}>
+            <IonCardContent className='item-center'>
+              <IonImg src={product.imagen} alt={product.nombre} className='img-card' />
+
+            </IonCardContent>
+            <IonCardHeader>
+              <h4>{product.nombre}</h4>
+            </IonCardHeader>
+            <IonCardContent>
+              <IonText>
+                <p><strong>Precio:</strong> ${product.precioFinal}</p>
+                <p><strong>Ranking:</strong> {product.ranking}/5</p>
+              </IonText>
+            </IonCardContent>
+          </IonCard>
         </SwiperSlide>
       ))}
     </Swiper>

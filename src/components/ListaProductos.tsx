@@ -12,7 +12,10 @@ import {
   IonRow,
   IonCol,
   IonText,
+  IonChip
 } from '@ionic/react';
+import ImageCarousel from './ImageCarousel';
+
 
 interface Product {
   productoId: number;
@@ -43,9 +46,20 @@ const ListaProductos: React.FC<ListaProductosProps> = ({ products }) => {
     history.push(`/product/${productId}`);
   };
 
+  const imageUrls = [
+    '/assets/Images/oferta-slider-1.jpg',
+    '/assets/Images/oferta-slider-2.jpg',
+    '/assets/Images/oferta-slider-3.jpg',
+    // Agrega más URLs de imágenes aquí
+  ];
+
   return (
     <IonPage className='scroll-container'>
       <IonContent>
+        <ImageCarousel images={imageUrls} />
+        <IonChip outline={true} >Productos de la categoria seleccionada</IonChip>
+
+
         {products.length === 0 ? (
           <IonText color="danger">No hay productos disponibles</IonText>
         ) : (

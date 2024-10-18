@@ -1,4 +1,4 @@
-import { IonPage } from '@ionic/react';
+import { IonPage, IonChip } from '@ionic/react';
 import ExploreContainer from '../components/ExploreContainer';
 import './Tab2.css';
 import LayoutPage from '../components/LayoutPage';
@@ -9,6 +9,8 @@ const Tab2: React.FC = () => {
   return (
     <IonPage>
       <LayoutPage>
+        <IonChip outline={true} className='margin-top' >Categorias disponibles</IonChip>
+
         <CategoryCards />
       </LayoutPage>
     </IonPage>

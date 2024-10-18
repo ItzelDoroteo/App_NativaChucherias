@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { IonTitle, IonText, IonContent, IonPage } from '@ionic/react';
+import { IonTitle, IonChip, IonContent, IonPage } from '@ionic/react';
 import axios from 'axios';
 import ListaProductos from '../components/ListaProductos';
 import LayoutPage from '../components/LayoutPage';
