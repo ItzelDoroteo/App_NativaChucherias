@@ -23,4 +23,7 @@
     display: flex;
     align-items: center;
   }
-  
+
+  .custom-toolbar {
+    --background: #f8c6f9;
+  }

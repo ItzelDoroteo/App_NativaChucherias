@@ -1,17 +1,34 @@
-import React from 'react';
-import { IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar, IonSearchbar, IonIcon, IonRouterLink, IonBadge } from '@ionic/react';
+import React, { useState } from 'react';
+import { IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar, IonSearchbar, IonIcon, IonRouterLink, IonBadge, IonToast } from '@ionic/react';
 import { cartOutline } from 'ionicons/icons';
 import './LayoutPage.css';
 import './CustomMenu.css';
-import { useCart } from '../contexts/CartContext'; // Asegúrate de que la ruta sea correcta
+import { useCart } from '../contexts/CartContext';
+import { useAuth } from '../contexts/AuthContext';
+import { useHistory } from 'react-router-dom';
 
 interface LayoutPageProps {
   children: React.ReactNode;
 }
 
 const LayoutPage: React.FC<LayoutPageProps> = ({ children }) => {
-  const { cart } = useCart(); // Obtiene el carrito desde el contexto
-  const totalItems = cart.reduce((acc, item) => acc + item.cantidad, 0); // Calcula el total de items en el carrito
+  const { cart } = useCart();
+  const { user } = useAuth();
+  const [showToast, setShowToast] = useState(false);
+  const totalItems = cart.reduce((acc, item) => acc + item.cantidad, 0);
+  const history = useHistory(); // Usar el hook de history
+
+  const handleCartClick = (e: React.MouseEvent) => {
+    if (!user) {
+      e.preventDefault();
+      setShowToast(true);
+    }
+  };
+
+  const handleSearch = (searchTerm: string) => {
+    // Redirigir a la página de búsqueda con el término ingresado
+    history.push(`/search/${encodeURIComponent(searchTerm)}`);
+  };
 
   return (
     <>
@@ -21,11 +38,18 @@ const LayoutPage: React.FC<LayoutPageProps> = ({ children }) => {
             <IonButtons slot="start">
               <IonMenuButton></IonMenuButton>
             </IonButtons>
-            <IonSearchbar placeholder="Buscar productos" animated={true} />
+            <IonSearchbar 
+              placeholder="Buscar productos" 
+              animated={true} 
+              onKeyPress={(e) => {
+                if (e.key === 'Enter' && (e.target as HTMLInputElement).value.trim() !== '') {
+                  handleSearch((e.target as HTMLInputElement).value);
+                }
+              }} 
+            />
             <IonButtons slot='end' className='icon-container'>
-              <IonRouterLink routerLink="/cart" color={'dark'} >
+              <IonRouterLink routerLink="/cart" color={'dark'} onClick={handleCartClick}>
                 <IonIcon className='icon-header' icon={cartOutline} />
-                {/* Indicador de cantidad */}
                 {totalItems > 0 && (
                   <IonBadge color="danger" className="cart-badge">
                     {totalItems}
@@ -36,9 +60,17 @@ const LayoutPage: React.FC<LayoutPageProps> = ({ children }) => {
           </IonToolbar>
         </IonHeader>
         <IonContent>
-          {/* Aquí se renderizará el componente hijo */}
           {children}
         </IonContent>
+
+        <IonToast
+          isOpen={showToast}
+          onDidDismiss={() => setShowToast(false)}
+          message="Para continuar, debes iniciar sesión."
+          duration={2000}
+          position="top"
+          color="warning"
+        />
       </IonPage>
     </>
   );

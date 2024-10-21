@@ -51,9 +51,6 @@ const CategoryProducts: React.FC = () => {
         <IonPage>
             <LayoutPage>
                 <IonContent>
-                    {categoryName && (
-                        <IonTitle className='title'>Productos disponibles para la categoría: {categoryName}</IonTitle>
-                    )}
                     <ListaProductos products={products} />
                 </IonContent>
             </LayoutPage>

@@ -1,21 +1,9 @@
-import React from 'react';
-import { useHistory } from 'react-router-dom';
-import './ListaProductos.css';
-import {
-  IonContent,
-  IonPage,
-  IonCard,
-  IonCardHeader,
-  IonCardTitle,
-  IonCardContent,
-  IonImg,
-  IonRow,
-  IonCol,
-  IonText,
-  IonChip
-} from '@ionic/react';
-import ImageCarousel from './ImageCarousel';
-
+import React, { useEffect, useState } from 'react';
+import { IonPage, IonContent, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonImg, IonRow, IonCol, IonText, IonChip } from '@ionic/react';
+import axios from 'axios';
+import LayoutPage from '../components/LayoutPage';
+import { useParams, useHistory } from 'react-router-dom';
+import ImageCarousel from '../components/ImageCarousel'; // Asegúrate de que la ruta sea correcta
 
 interface Product {
   productoId: number;
@@ -34,18 +22,24 @@ interface Product {
   ranking: number;
 }
 
-interface ListaProductosProps {
-  products: Product[];
-}
-
-const ListaProductos: React.FC<ListaProductosProps> = ({ products }) => {
-  if (!products.length) {
-    return <div>No se encontraron productos.</div>;
-  }
-  
+const SearchPage: React.FC = () => {
+  const { term } = useParams<{ term: string }>(); // Obtener el término de búsqueda de la URL
+  const [products, setProducts] = useState<Product[]>([]);
   const history = useHistory();
 
-  // Función para redirigir a la página de detalles del producto
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await axios.post('http://localhost:5000/products/search', { search: term });
+        setProducts(response.data);
+      } catch (error) {
+        console.error('Error fetching products:', error);
+      }
+    };
+
+    fetchProducts();
+  }, [term]); // Dependencia del término de búsqueda
+
   const handleProductClick = (productId: number) => {
     history.push(`/product/${productId}`);
   };
@@ -57,14 +51,13 @@ const ListaProductos: React.FC<ListaProductosProps> = ({ products }) => {
   ];
 
   return (
-    <IonPage className='scroll-container'>
-      <IonContent>
+    <IonPage>
+      <LayoutPage>
         <ImageCarousel images={imageUrls} />
-        <IonChip outline={true} >Productos de la categoria seleccionada</IonChip>
-
-
+        <IonChip outline={true}>Productos encontrados para: "{term}"</IonChip>
+        
         {products.length === 0 ? (
-          <IonText color="danger">No hay productos disponibles</IonText>
+          <IonText color="danger">No se encontraron productos.</IonText>
         ) : (
           products.map((product) => (
             <IonCard key={product.productoId} onClick={() => handleProductClick(product.productoId)}>
@@ -91,9 +84,9 @@ const ListaProductos: React.FC<ListaProductosProps> = ({ products }) => {
             </IonCard>
           ))
         )}
-      </IonContent>
+      </LayoutPage>
     </IonPage>
   );
 };
 
-export default ListaProductos;
+export default SearchPage;
