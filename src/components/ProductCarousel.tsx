@@ -1,6 +1,6 @@
 import React from 'react';
 import { useHistory } from 'react-router';
-import { IonCard, IonCardContent, IonCardHeader, IonImg, IonGrid, IonRow, IonCol, IonButton, IonText } from '@ionic/react';
+import { IonCard, IonCardContent, IonCardHeader, IonImg, IonGrid, IonRow, IonCol, IonButton, IonText, IonContent } from '@ionic/react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import '../../node_modules/swiper/swiper-bundle.min.css';
 import '../../node_modules/swiper/swiper.min.css';
@@ -30,7 +30,6 @@ const ProductCarousel: React.FC<ProductCarouselProps> = ({ products }) => {
     <Swiper
       spaceBetween={10}
       slidesPerView={2} // Ajusta según tu diseño
-      navigation
       pagination={{ clickable: true }}
       autoplay={{ delay: 3000 }}
     >
@@ -54,6 +53,7 @@ const ProductCarousel: React.FC<ProductCarouselProps> = ({ products }) => {
         </SwiperSlide>
       ))}
     </Swiper>
+    
   );
 };
 

@@ -8,6 +8,7 @@ import Tab3 from '../pages/Tab3';
 import Login from '../pages/Login';
 import CategoryProducts from '../pages/CategoryProducts';
 import DetalleProducto from '../pages/DetalleProducto';
+import CartPage from '../pages/CartPage';
 import { useAuth } from '../contexts/AuthContext';
 import './MainLayout.css';
 
@@ -91,6 +92,7 @@ const MainLayout: React.FC = () => {
                 <Redirect to="/login" />
               )}
             </Route>
+            <Route exact path="/cart" component={CartPage} />
 
             <Route exact path="/products/categoria/:categoriaId" component={CategoryProducts} />
             <Route exact path="/product/:productId" component={DetalleProducto} />

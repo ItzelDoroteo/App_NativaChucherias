@@ -4,6 +4,7 @@ import { setupIonicReact } from '@ionic/react';
 import { Route } from 'react-router-dom';
 import MainLayout from './components/MainLayout';
 import { AuthProvider } from './contexts/AuthContext';
+import { CartProvider } from './contexts/CartContext';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -25,11 +26,12 @@ setupIonicReact();
 
 const App: React.FC = () => (
   <IonApp>
-    <AuthProvider> {/* Envolver todo dentro del AuthProvider */}
-      <IonReactRouter>
-        <Route path="/" component={MainLayout} exact={false} />
-        {/* Puedes agregar más rutas aquí si es necesario */}
-      </IonReactRouter>
+    <AuthProvider>
+      <CartProvider>
+        <IonReactRouter>
+          <Route path="/" component={MainLayout} exact={false} />
+        </IonReactRouter>
+      </CartProvider>
     </AuthProvider>
   </IonApp>
 );

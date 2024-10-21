@@ -1,28 +1,39 @@
-import React from 'react';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import '../../node_modules/swiper/swiper-bundle.min.css';
-import '../../node_modules/swiper/swiper.min.css';
-import './ImageCarousel.css';
+import React, { useState, useEffect } from 'react';
+import './ImageCarousel.css'; // Asegúrate de tener un archivo de estilos para el carrusel
 
 interface ImageCarouselProps {
   images: string[]; // Array de URLs de imágenes
 }
 
 const ImageCarousel: React.FC<ImageCarouselProps> = ({ images }) => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  // Cambiar la imagen cada 3 segundos (3000 ms)
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
+    }, 3000); // Cambia el tiempo aquí si quieres más rápido o más lento
+
+    // Limpiar el intervalo cuando el componente se desmonte
+    return () => clearInterval(interval);
+  }, [images.length]);
+
   return (
-    <Swiper
-      spaceBetween={10}
-      slidesPerView={1} // Ajusta según tu diseño
-      pagination={{ clickable: true }}
-      autoplay={{ delay: 3000 }} // Cambia el tiempo de retraso aquí
-      loop={true} // Permite el bucle infinito
-    >
-      {images.map((image, index) => (
-        <SwiperSlide key={index}>
-          <img src={image} alt={`Imagen ${index + 1}`} className="carousel-image" />
-        </SwiperSlide>
-      ))}
-    </Swiper>
+    <div className="carousel-container">
+      <img
+        src={images[currentIndex]}
+        alt={`Imagen ${currentIndex + 1}`}
+        className="carousel-image"
+      />
+      <div className="carousel-indicators">
+        {images.map((_, index) => (
+          <span
+            key={index}
+            className={`indicator ${index === currentIndex ? 'active' : ''}`}
+          ></span>
+        ))}
+      </div>
+    </div>
   );
 };
 
