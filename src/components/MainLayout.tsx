@@ -11,6 +11,8 @@ import CategoryProducts from '../pages/CategoryProducts';
 import DetalleProducto from '../pages/DetalleProducto';
 import SearchPage from '../pages/SearchPage';
 import CartPage from '../pages/CartPage';
+import SelectAddress from '../pages/SelectAddress';
+import SelectPayment from '../pages/SelectPayment';
 import { useAuth } from '../contexts/AuthContext';
 import './MainLayout.css';
 
@@ -86,11 +88,11 @@ const MainLayout: React.FC = () => {
                 </IonItem>
               ) : (
                 <>
-                  <IonItem button onClick={cierreSession}>
+                  <IonItem routerLink="/cart">
                     <IonIcon icon={cartOutline} slot="start" />
                     <IonLabel>Mi carrito</IonLabel>
                   </IonItem>
-                  <IonItem button onClick={cierreSession}>
+                  <IonItem routerLink="/cart">
                     <IonIcon icon={timeOutline} slot="start" />
                     <IonLabel>Historial de compras</IonLabel>
                   </IonItem>
@@ -119,6 +121,8 @@ const MainLayout: React.FC = () => {
             </Route>
             <Route exact path="/tab4" component={Tab4} />
             <Route exact path="/cart" component={CartPage} />
+            <Route exact path="/select-address" component={SelectAddress} />
+            <Route exact path="/select-payment" component={SelectPayment} />
             <Route exact path="/search/:term" component={SearchPage} />
             <Route exact path="/products/categoria/:categoriaId" component={CategoryProducts} />
             <Route exact path="/product/:productId" component={DetalleProducto} />

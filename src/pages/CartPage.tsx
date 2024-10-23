@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import {
   IonPage, IonContent, IonList, IonItem, IonLabel, IonButton, IonIcon, IonText, IonFooter, IonThumbnail, IonSpinner, IonChip,
-  IonHeader, IonAlert
+  IonHeader, IonAlert, IonCard, IonCardContent, IonGrid
 } from '@ionic/react';
 import { useHistory } from 'react-router-dom';
 import { addCircleOutline, removeCircleOutline, trashOutline, cartOutline } from 'ionicons/icons'; // cartOutline agregado
@@ -29,6 +29,11 @@ const CartPage: React.FC = () => {
   // Función para calcular el total
   const calculateTotal = () => {
     return cart.reduce((total, item) => total + item.precio * item.cantidad, 0).toFixed(2);
+  };
+
+  // Función para calcular el total
+  const calculateIva = () => {
+    return cart.reduce((total, item) => total + item.IVA * item.cantidad, 0).toFixed(2);
   };
 
   const handleProductClick = (productId: number) => {
@@ -131,13 +136,32 @@ const CartPage: React.FC = () => {
         {/* Footer con el total */}
         {cart.length > 0 && (
           <IonFooter>
-            <IonText className="total-text">
-              <h2>Total: ${calculateTotal()}</h2>
-            </IonText>
-            <IonButton expand="block" color="primary">
-              Proceder al pago
-            </IonButton>
-          </IonFooter>
+          <IonCard className="total-card">
+            <IonCardContent>
+              <div className="total-container">
+                <IonText className="total-text">
+                  <h2><strong>Total</strong></h2>
+                </IonText>
+                <IonText className="total-price">
+                  <h2><strong>${calculateTotal()}</strong></h2>
+                </IonText>
+              </div>
+              <div className="total-container">
+                <IonText className="total-text">
+                  <h2>IVA incluido</h2>
+                </IonText>
+                <IonText className="total-price">
+                  <h2>${calculateIva()}</h2>
+                </IonText>
+              </div>
+              <IonButton expand="block" color="primary" routerLink='/select-address'>
+                Continuar
+              </IonButton>
+            </IonCardContent>
+          </IonCard>
+        </IonFooter>
+        
+        
         )}
       </LayoutPage>
     </IonPage>
