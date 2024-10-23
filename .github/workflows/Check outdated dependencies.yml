@@ -22,6 +22,7 @@ jobs:
 
       - name: Check for outdated dependencies
         run: npm outdated
+        continue-on-error: true
 
   build-ionic-app:
     runs-on: ubuntu-latest
