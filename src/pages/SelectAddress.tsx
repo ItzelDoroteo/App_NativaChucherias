@@ -135,12 +135,7 @@ const SelectAddress: React.FC = () => {
   return (
     <IonPage>
       <LayoutPage>
-        <IonHeader>
-          <IonToolbar>
-            <IonTitle>Seleccionar Dirección</IonTitle>
-          </IonToolbar>
-        </IonHeader>
-        <IonContent className='cart-content'>
+        <IonContent className='cart-content-address'>
           <div className="container">
             <h3>Elige la forma de entrega</h3>
 

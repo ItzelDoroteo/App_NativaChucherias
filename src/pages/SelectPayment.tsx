@@ -105,28 +105,27 @@ const SelectPayment: React.FC = () => {
     return (
         <IonPage>
             <LayoutPage>
-                <IonHeader >
-                    <IonToolbar>
-                        <IonTitle>Selecciona tu forma de pago</IonTitle>
-                    </IonToolbar>
-                </IonHeader>
-                <IonContent className='cart-content'>
-                    <IonCard>
-                        <IonCardContent>
-                            <IonRadioGroup value={selectedPayment} onIonChange={handleMetodoPagoChange}>
-                                <IonItem className='item-payment'>
-                                    <IonRadio slot="start" value="pagarEnSucursal" />
-                                    <IonLabel className='item-payment'>
-                                        <IonIcon icon={storefrontOutline} className='ml-4'/> Pagar en sucursal
+                <IonContent className='cart-content-address'>
+                    <div className="container">
+                        <h3>Elige tu forma de pago</h3>
+                        <IonCard>
+                            <IonCardContent>
+                                <IonRadioGroup value={selectedPayment} onIonChange={handleMetodoPagoChange}>
+                                    <IonItem className='item-payment'>
+                                        <IonRadio slot="start" value="pagarEnSucursal" />
+                                        <IonLabel className='item-payment'>
+                                            <IonIcon icon={storefrontOutline} className='ml-4' /> Pagar en sucursal
                                         </IonLabel>
-                                </IonItem>
-                                <IonItem className='item-payment'>
-                                    <IonRadio slot="start" value="stripe" />
-                                    <IonLabel className='item-payment'><IonIcon icon={walletOutline} className='ml-4'/>Pagar con tarjeta (Stripe)</IonLabel>
-                                </IonItem>
-                            </IonRadioGroup>
-                        </IonCardContent>
-                    </IonCard>
+                                    </IonItem>
+                                    <IonItem className='item-payment'>
+                                        <IonRadio slot="start" value="stripe" />
+                                        <IonLabel className='item-payment'><IonIcon icon={walletOutline} className='ml-4' />Pagar con tarjeta (Stripe)</IonLabel>
+                                    </IonItem>
+                                </IonRadioGroup>
+                            </IonCardContent>
+                        </IonCard>
+                    </div>
+
 
 
                 </IonContent>
