@@ -1,0 +1,37 @@
+name: Run E2E tests with Cypress
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Install Ionic CLI (if necessary)
+        run: npm install -g @ionic/cli
+
+      - name: Build Ionic app (adjust command if necessary)
+        run: npm run build
+
+      - name: Start the Ionic app
+        run: nohup ionic serve --lab &
+        continue-on-error: true
+
+      - name: Run E2E tests with Cypress
+        run: npx cypress run
