@@ -85,3 +85,12 @@
     margin: 10px;
   }
   
+
+  .item-payment{
+    display: flex;
+    align-items: center;
+  }
+
+  .ml-4{
+    margin-right: 10px;
+  }
