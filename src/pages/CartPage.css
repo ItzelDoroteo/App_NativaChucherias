@@ -1,5 +1,9 @@
 .cart-content{
-    height: 80%;
+    height: 70%;
+}
+
+.cart-content-address{
+  height: 60%;
 }
 
 .item-list{
@@ -37,3 +41,56 @@
     color: var(--ion-color-medium);
   }
   
+
+  .total-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+  }
+  
+  .total-text h2, 
+  .total-price h2 {
+    margin: 0;
+  }
+  
+  .total-card {
+    margin: 10px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .total-card table{
+    width: 100%;
+  }
+
+  .total-card-title{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .total-container-address{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2px 0;
+  }
+
+  .container{
+    padding: 10px;
+  }
+
+  .newa-ddress{
+    margin: 10px;
+  }
+  
+
+  .item-payment{
+    display: flex;
+    align-items: center;
+  }
+
+  .ml-4{
+    margin-right: 10px;
+  }

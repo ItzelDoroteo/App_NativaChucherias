@@ -5,7 +5,7 @@ import ListaProductosHome from '../components/ListaProductosHome';
 import LayoutPage from '../components/LayoutPage';
 
 const Tab1: React.FC = () => {
-  const [products, setProducts] = useState([]);
+  const [productos, setProducts] = useState([]);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -23,7 +23,7 @@ const Tab1: React.FC = () => {
   return (
     <IonPage>
       <LayoutPage>
-        <ListaProductosHome products={products} />
+        <ListaProductosHome />
       </LayoutPage>
     </IonPage>
   );
