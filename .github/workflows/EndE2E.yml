@@ -33,7 +33,7 @@ jobs:
         run: nohup ionic serve --port 5173 &
 
       - name: Wait for the server to be ready
-        run: npx wait-on http://localhost:8100
+        run: npx wait-on http://localhost:5173
 
       - name: Run E2E tests with Cypress
         run: npx cypress run
