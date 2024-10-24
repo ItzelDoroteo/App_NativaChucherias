@@ -23,15 +23,17 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Install Ionic CLI (if necessary)
+      - name: Install Ionic CLI
         run: npm install -g @ionic/cli
 
-      - name: Build Ionic app (adjust command if necessary)
+      - name: Build Ionic app
         run: npm run build
 
       - name: Start the Ionic app
-        run: nohup ionic serve --lab &
-        continue-on-error: true
+        run: nohup ionic serve --port 5173 &
+        
+      - name: Wait for the server to be ready
+        run: npx wait-on http://localhost:5173
 
       - name: Run E2E tests with Cypress
         run: npx cypress run
