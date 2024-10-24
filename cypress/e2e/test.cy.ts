@@ -3,6 +3,6 @@ describe('My First Test', () => {
     cy.visit('/');
     // Espera a que el contenedor esté visible
     cy.get('#container', { timeout: 20000 }).should('be.visible');
-    cy.get('#container').should('contain', 'Ready to create an app?');
+    cy.get('#container').should('contain', 'Productos más vendidos');
   });
 });

@@ -88,7 +88,7 @@ const ListaProductos: React.FC = () => {
 
   return (
     <IonPage className='scroll-container'>
-      <IonContent>
+      <IonContent id="container">
         <ImageCarousel images={imageUrls} />
 
         {/* Agregar el carrusel arriba del listado de productos */}
