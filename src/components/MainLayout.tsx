@@ -13,6 +13,7 @@ import SearchPage from '../pages/SearchPage';
 import CartPage from '../pages/CartPage';
 import SelectAddress from '../pages/SelectAddress';
 import SelectPayment from '../pages/SelectPayment';
+import PurchaseHistory from '../pages/PurchaseHistory';
 import { useAuth } from '../contexts/AuthContext';
 import './MainLayout.css';
 
@@ -92,7 +93,7 @@ const MainLayout: React.FC = () => {
                     <IonIcon icon={cartOutline} slot="start" />
                     <IonLabel>Mi carrito</IonLabel>
                   </IonItem>
-                  <IonItem routerLink="/cart">
+                  <IonItem routerLink="/purchase-history">
                     <IonIcon icon={timeOutline} slot="start" />
                     <IonLabel>Historial de compras</IonLabel>
                   </IonItem>
@@ -126,6 +127,7 @@ const MainLayout: React.FC = () => {
             <Route exact path="/search/:term" component={SearchPage} />
             <Route exact path="/products/categoria/:categoriaId" component={CategoryProducts} />
             <Route exact path="/product/:productId" component={DetalleProducto} />
+            <Route exact path="/purchase-history" component={PurchaseHistory} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/">
               <Redirect to="/tab1" />

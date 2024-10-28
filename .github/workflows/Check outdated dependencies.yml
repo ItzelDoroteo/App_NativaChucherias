@@ -1,7 +1,12 @@
 name: Check outdated dependencies and build Ionic app
 
-on:
+on: 
   push:
+    branches:
+      - JoseLuisDev
+      - ItzelDev
+      
+  pull_request:
     branches:
       - main
 
@@ -24,6 +29,23 @@ jobs:
         run: npm outdated
         continue-on-error: true
 
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run unit tests
+        run: npm run test.unit
+
   build-ionic-app:
     runs-on: ubuntu-latest
     steps:
@@ -40,3 +62,6 @@ jobs:
 
       - name: Build Ionic app
         run: npm run build
+  
+  
+  

@@ -1,5 +1,6 @@
+// AuthContext.tsx
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { jwtDecode } from 'jwt-decode';
+import {jwtDecode} from 'jwt-decode';
 
 interface User {
   customerId: number | null;
@@ -9,11 +10,11 @@ interface User {
   sexo: string;
   correo: string;
   imagen: string;
-  edad: Date; // o Date, dependiendo de cómo prefieras manejarlo
+  edad: Date;
   telefono: string;
   respuestaPSecreta: string;
   preguntaSecreta: string;
-  sesion: string; // o number, según el tipo de sessionId
+  sesion: string;
 }
 
 interface AuthContextType {
@@ -24,16 +25,18 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [user, setUser] = useState<User | null>(null);
+export const AuthProvider: React.FC<{ children: React.ReactNode; value?: AuthContextType }> = ({ children, value }) => {
+  const [user, setUser] = useState<User | null>(value?.user || null);
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      const decoded: User = jwtDecode(token);
-      setUser(decoded);
+    if (!value) {
+      const token = localStorage.getItem('token');
+      if (token) {
+        const decoded: User = jwtDecode(token);
+        setUser(decoded);
+      }
     }
-  }, []);
+  }, [value]);
 
   const login = (token: string) => {
     localStorage.setItem('token', token);

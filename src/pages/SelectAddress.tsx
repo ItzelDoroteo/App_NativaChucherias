@@ -206,40 +206,40 @@ const SelectAddress: React.FC = () => {
           </div>
         </IonContent>
         {totalItemsEnCarrito > 0 && (
-              <IonFooter>
-                <IonCard className="total-card">
-                  <IonCardHeader>
-                    <IonCardTitle className='total-card-title'><strong>Información de compra</strong></IonCardTitle>
-                  </IonCardHeader>
-                  <IonCardContent>
-                    <table >
-                      <tbody >
-                        {cart.map((item, index) => (
-                          <tr key={index}  className="total-container-address">
-                            <td className="total-text">{item.producto} ({item.cantidad})</td>
-                            <td className="total-price">$ {(item.precio * item.cantidad).toFixed(2)}</td>
-                          </tr>
-                        ))}
-                        <tr className="total-container-address">
-                          <td className="total-text">IVA (incluido)</td>
-                          <td className="total-price">$ {totalIVA}</td>
-                        </tr>
-                        <tr className="total-container-address">
-                          <td className="total-text">Envío</td>
-                          <td className="total-price">{envio == 0 ? "No aplica" : `$ ${envio}`}</td>
-                        </tr>
-                        <tr className="total-container-address">
-                          <td className="total-text"><strong>Total</strong></td>
-                          <td className="total-price"><strong>$ {(parseFloat((totalProductos).toFixed(2)) + envio).toFixed(2)}</strong></td>
-                        </tr>
-                      </tbody>
-                    </table>
-                    <IonButton expand="full" onClick={handleProceedToPayment}>Proceder al Pago</IonButton>
-                  </IonCardContent>
-                </IonCard>
-              </IonFooter>
+          <IonFooter>
+            <IonCard className="total-card">
+              <IonCardHeader>
+                <IonCardTitle className='total-card-title'><strong>Información de compra</strong></IonCardTitle>
+              </IonCardHeader>
+              <IonCardContent>
+                <table >
+                  <tbody >
+                    {cart.map((item, index) => (
+                      <tr key={index} className="total-container-address">
+                        <td className="total-text">{item.producto} ({item.cantidad})</td>
+                        <td className="total-price">$ {(item.precio * item.cantidad).toFixed(2)}</td>
+                      </tr>
+                    ))}
+                    <tr className="total-container-address">
+                      <td className="total-text">IVA (incluido)</td>
+                      <td className="total-price">$ {totalIVA}</td>
+                    </tr>
+                    <tr className="total-container-address">
+                      <td className="total-text">Envío</td>
+                      <td className="total-price">{envio == 0 ? "No aplica" : `$ ${envio}`}</td>
+                    </tr>
+                    <tr className="total-container-address">
+                      <td className="total-text"><strong>Total</strong></td>
+                      <td className="total-price"><strong>$ {(parseFloat((totalProductos).toFixed(2)) + envio).toFixed(2)}</strong></td>
+                    </tr>
+                  </tbody>
+                </table>
+                <IonButton expand="full" onClick={handleProceedToPayment}>Proceder al Pago</IonButton>
+              </IonCardContent>
+            </IonCard>
+          </IonFooter>
 
-            )}
+        )}
       </LayoutPage>
     </IonPage>
   );

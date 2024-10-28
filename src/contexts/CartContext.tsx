@@ -1,14 +1,15 @@
+// CartContext.tsx
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
 import { useAuth } from './AuthContext';
 
 interface CartItem {
-    productoId: number;
-    producto: string;
-    precio: number;
-    cantidad: number;
-    imagen: string;
-    IVA: number;
+  productoId: number;
+  producto: string;
+  precio: number;
+  cantidad: number;
+  imagen: string;
+  IVA: number;
 }
 
 interface CartContextType {
@@ -22,18 +23,17 @@ interface CartContextType {
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
-export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const CartProvider: React.FC<{ children: React.ReactNode; value?: CartContextType }> = ({ children, value }) => {
   const { user } = useAuth();
-  const [cart, setCart] = useState<CartItem[]>([]);
+  const [cart, setCart] = useState<CartItem[]>(value?.cart || []);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    if (user?.customerId) {
+    if (user?.customerId && !value) {
       loadCart(user.customerId);
     }
-  }, [user]);
+  }, [user, value]);
 
-  // Cargar el carrito desde la API y localStorage
   const loadCart = async (customerId: number) => {
     setIsLoading(true);
     try {
@@ -53,12 +53,11 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const mergeCarts = (localCart: CartItem[], apiCart: CartItem[]) => {
-    // Combina el carrito local con el de la API
     const combinedCart = [...localCart];
     apiCart.forEach(apiItem => {
       const index = combinedCart.findIndex(item => item.productoId === apiItem.productoId);
       if (index > -1) {
-        combinedCart[index].cantidad = apiItem.cantidad; // Sobrescribir en vez de sumar
+        combinedCart[index].cantidad = apiItem.cantidad;
       } else {
         combinedCart.push(apiItem);
       }
@@ -68,54 +67,37 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const addItem = async (producto: CartItem) => {
     if (user?.customerId) {
-        try {
-            // Verifica si el producto ya está en el carrito
-            const existingProductIndex = cart.findIndex(item => item.productoId === producto.productoId);
+      try {
+        const existingProductIndex = cart.findIndex(item => item.productoId === producto.productoId);
+        let updatedCart;
 
-            let updatedCart;
+        if (existingProductIndex > -1) {
+          const existingProduct = cart[existingProductIndex];
+          const newQuantity = existingProduct.cantidad + producto.cantidad;
 
-            if (existingProductIndex > -1) {
-                // Si el producto ya existe, suma las cantidades
-                const existingProduct = cart[existingProductIndex];
-                const newQuantity = existingProduct.cantidad + producto.cantidad;
+          updatedCart = cart.map((item, index) =>
+            index === existingProductIndex ? { ...item, cantidad: newQuantity } : item
+          );
 
-                updatedCart = cart.map((item, index) =>
-                    index === existingProductIndex
-                        ? { ...item, cantidad: newQuantity }
-                        : item
-                );
-
-                // Actualiza el producto en la API
-                await updateItem(producto.productoId, newQuantity); // Llama a la función updateItem
-            } else {
-                // Si no existe, simplemente agrega el nuevo producto
-                updatedCart = [...cart, producto];
-
-                // Envía la nueva adición a la API
-                const cartItemWithCustomer = {
-                    customerId: user.customerId,
-                    ...producto,
-                };
-
-                await axios.post('http://localhost:5000/cart/', cartItemWithCustomer);
-            }
-
-            // Actualiza el estado del carrito y el localStorage
-            setCart(updatedCart);
-            localStorage.setItem('cart', JSON.stringify(updatedCart));
-        } catch (error) {
-            console.error('Error adding item:', error);
+          await updateItem(producto.productoId, newQuantity);
+        } else {
+          updatedCart = [...cart, producto];
+          const cartItemWithCustomer = { customerId: user.customerId, ...producto };
+          await axios.post('http://localhost:5000/cart/', cartItemWithCustomer);
         }
+
+        setCart(updatedCart);
+        localStorage.setItem('cart', JSON.stringify(updatedCart));
+      } catch (error) {
+        console.error('Error adding item:', error);
+      }
     }
-};
-
-
-
+  };
 
   const updateItem = async (productoId: number, cantidad: number) => {
     if (user?.customerId) {
       try {
-        const updatedCart = cart.map(item => item.productoId === productoId ? { ...item, cantidad } : item);
+        const updatedCart = cart.map(item => (item.productoId === productoId ? { ...item, cantidad } : item));
         setCart(updatedCart);
         localStorage.setItem('cart', JSON.stringify(updatedCart));
         await axios.put(`http://localhost:5000/cart/${user.customerId}/${productoId}`, { cantidad });

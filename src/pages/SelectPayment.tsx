@@ -48,40 +48,51 @@ const SelectPayment: React.FC = () => {
         }
     };
 
+    
     const handleStripeCheckout = async () => {
         try {
             if (!user || !venta) return;
-
+    
             const items = venta.productos.map((item: any) => ({
                 title: item.producto,
                 quantity: item.cantidad,
                 price: Math.round(item.precio * 100), // Stripe maneja centavos
                 imagen: item.imagen,
             }));
-
+    
             let shipping = null;
             if (venta.domicilioId) {
                 shipping = {
                     price: Math.round(venta.totalEnvio * 100),
                 };
             }
-
-            const response = await axios.post('http://localhost:5000/ventas/create-checkout-session', {
+    
+            const response = await axios.post('http://localhost:5000/ventas/create-checkout-session-movil', {
                 items,
                 shipping,
                 venta,
                 customerId: user.customerId,
                 metodoPagoId: 4,
             });
-
-            const { id } = response.data;
+    
+            console.log('Respuesta del servidor:', response.data);
+    
+            const { id } = response.data; // Asegúrate de que esto sea válido
+    
             const stripe = (window as any).Stripe('pk_test_51Pf8IA2NI1ZNadeOLivsZnTK9wtGno4CEo8viraLEc0NBdl9CFbhubTvVVuo7gpznAfJt6mqR10IhaeVQQNutEQ500WkPoYuht');
-            await stripe.redirectToCheckout({ sessionId: id });
-        } catch (error) {
-            console.error('Error al redirigir a Stripe Checkout:', error);
+            const result = await stripe.redirectToCheckout({ sessionId: id });
+    
+            if (result.error) {
+                console.error('Error al redirigir a Stripe:', result.error.message);
+                alert(result.error.message);
+            }
+        } catch (error:any) {
+            console.error('Error al redirigir a Stripe Checkout:', error.response ? error.response.data : error.message);
             alert('Error al iniciar el pago con Stripe.');
         }
     };
+    
+    
 
     const renderPaymentButton = () => {
         switch (selectedPayment) {
