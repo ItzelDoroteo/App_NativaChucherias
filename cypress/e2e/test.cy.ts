@@ -5,6 +5,7 @@ describe('My First Test', () => {
     // cy.wait('@getProducts'); 
     // Espera a que el contenedor esté visible
     cy.get('#container', { timeout: 20000 }).should('be.visible');
-    cy.get('#container').should('contain', 'Productos más vendidos');
+    
   });
 });
+cy.get('#container').should('contain', 'Productos más vendidos');

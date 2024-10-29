@@ -1,10 +1,10 @@
 // src/pages/LoginPage.tsx
 import React, { useState } from 'react';
-import { IonContent, IonInput, IonButton, IonToast, IonPage, IonLabel, IonImg, IonHeader, IonTitle, IonToolbar, IonInputPasswordToggle, IonText } from '@ionic/react';
+import { IonContent, IonInput, IonButton, IonToast, IonPage, IonLabel, IonImg, IonHeader, IonTitle, IonToolbar, IonInputPasswordToggle } from '@ionic/react';
 import axios from 'axios';
 import { useAuth } from '../contexts/AuthContext';
 import { useHistory } from 'react-router-dom';
-import './LoginPage.css'; // Archivo CSS para los estilos
+import './LoginPage.css';
 
 const LoginPage: React.FC = () => {
   const { login } = useAuth();
@@ -26,7 +26,6 @@ const LoginPage: React.FC = () => {
         login(token);
         setToastMessage(response.data.message);
 
-        // Redirigir a la página principal después de 3 segundos
         setTimeout(() => {
           setShowToast(false);
           history.push('/');
@@ -52,14 +51,12 @@ const LoginPage: React.FC = () => {
       </IonHeader>
 
       <IonContent className="ion-padding">
-        {/* <IonText><h3>Inicie sesión ahora, comencemos con sus compras. ¿No tiene una cuenta?</h3></IonText> */}
         <div className="login-container">
-          {/* Imagen o logo de inicio de sesión */}
           <IonImg src="/assets/Images/ChucheriasRegalos.jpg" alt="ChucheriasRegalos" className="login-image" />
 
-          {/* Campo de entrada de correo */}
           <IonLabel>Correo</IonLabel>
           <IonInput
+            id="email-input"
             placeholder="Correo"
             value={correo}
             onIonChange={(e) => setCorreo(e.detail.value!)}
@@ -67,19 +64,22 @@ const LoginPage: React.FC = () => {
             clearInput
           />
 
-          {/* Campo de entrada de contraseña */}
           <IonLabel>Contraseña</IonLabel>
-          <IonInput type="password" placeholder="Contraseña" value={contraseña} onIonChange={(e) => setContraseña(e.detail.value!)}
-            className="login-input">
+          <IonInput
+            id="password-input"
+            type="password"
+            placeholder="Contraseña"
+            value={contraseña}
+            onIonChange={(e) => setContraseña(e.detail.value !)}
+            className="login-input"
+          >
             <IonInputPasswordToggle slot="end"></IonInputPasswordToggle>
           </IonInput>
 
-          {/* Botón de inicio de sesión */}
           <IonButton expand="block" onClick={handleLogin} className="login-button">
             Iniciar Sesión
           </IonButton>
 
-          {/* Toast de feedback para el usuario */}
           <IonToast
             isOpen={showToast}
             onDidDismiss={() => setShowToast(false)}

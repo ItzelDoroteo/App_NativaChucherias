@@ -31,6 +31,7 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
+    needs: outdated-dependencies  # Dependencia del trabajo anterior
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -48,6 +49,7 @@ jobs:
 
   build-ionic-app:
     runs-on: ubuntu-latest
+    needs: test  # Dependencia del trabajo de prueba
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -62,6 +64,3 @@ jobs:
 
       - name: Build Ionic app
         run: npm run build
-  
-  
-  
