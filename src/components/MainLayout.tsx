@@ -1,21 +1,55 @@
-import React, { useState } from 'react';
-import { IonContent, IonHeader, IonMenu, IonMenuToggle, IonToolbar, IonTitle, IonPage, IonTabs, IonTabBar, IonTabButton, IonIcon, IonLabel, IonRouterOutlet, IonCol, IonRow, IonImg, IonItem, IonList, IonToast, IonRouterLink, IonLoading, IonAvatar } from '@ionic/react';
-import { home, list, person, logIn, logOut, helpCircleOutline, timeOutline, cartOutline } from 'ionicons/icons';
-import { Redirect, Route, useHistory } from 'react-router-dom';
-import Tab1 from '../pages/Tab1';
-import Tab2 from '../pages/Tab2';
-import Tab3 from '../pages/Tab3';
-import Tab4 from '../pages/Tab4';
-import Login from '../pages/Login';
-import CategoryProducts from '../pages/CategoryProducts';
-import DetalleProducto from '../pages/DetalleProducto';
-import SearchPage from '../pages/SearchPage';
-import CartPage from '../pages/CartPage';
-import SelectAddress from '../pages/SelectAddress';
-import SelectPayment from '../pages/SelectPayment';
-import PurchaseHistory from '../pages/PurchaseHistory';
-import { useAuth } from '../contexts/AuthContext';
-import './MainLayout.css';
+import React, { useState } from "react";
+import {
+  IonContent,
+  IonHeader,
+  IonMenu,
+  IonMenuToggle,
+  IonToolbar,
+  IonTitle,
+  IonPage,
+  IonTabs,
+  IonTabBar,
+  IonTabButton,
+  IonIcon,
+  IonLabel,
+  IonRouterOutlet,
+  IonCol,
+  IonRow,
+  IonImg,
+  IonItem,
+  IonList,
+  IonToast,
+  IonRouterLink,
+  IonLoading,
+  IonAvatar,
+} from "@ionic/react";
+import {
+  home,
+  list,
+  person,
+  logIn,
+  logOut,
+  helpCircleOutline,
+  timeOutline,
+  cartOutline,
+  personAddOutline,
+} from "ionicons/icons";
+import { Redirect, Route, useHistory } from "react-router-dom";
+import Tab1 from "../pages/Tab1";
+import Tab2 from "../pages/Tab2";
+import Tab3 from "../pages/Tab3";
+import Tab4 from "../pages/Tab4";
+import Login from "../pages/Login";
+import CategoryProducts from "../pages/CategoryProducts";
+import DetalleProducto from "../pages/DetalleProducto";
+import SearchPage from "../pages/SearchPage";
+import CartPage from "../pages/CartPage";
+import SelectAddress from "../pages/SelectAddress";
+import SelectPayment from "../pages/SelectPayment";
+import PurchaseHistory from "../pages/PurchaseHistory";
+import { useAuth } from "../contexts/AuthContext";
+import Register from "../pages/Register";
+import "./MainLayout.css";
 
 const MainLayout: React.FC = () => {
   const { user, logout } = useAuth();
@@ -27,16 +61,15 @@ const MainLayout: React.FC = () => {
     try {
       // Llamada a la función de cierre de sesión
       logout();
-      
+
       // Eliminar solo el carrito del localStorage
-      localStorage.removeItem('cart');
-      
+      localStorage.removeItem("cart");
+
       // Mostrar el toast de éxito de cierre de sesión
       setShowToast(true);
-      
+
       // Redirigir a la página de inicio o login
-      history.push('/login');
-      
+      history.push("/login");
     } catch (error: any) {
       console.log(error);
     }
@@ -53,7 +86,11 @@ const MainLayout: React.FC = () => {
       <IonMenu side="start" contentId="main">
         <IonHeader>
           <IonToolbar className="custom-toolbar">
-            <IonImg src={"/assets/Images/Chucherias.png"} className='img-user' alt="Logo chucherias y regalos" />
+            <IonImg
+              src={"/assets/Images/Chucherias.png"}
+              className="img-user"
+              alt="Logo chucherias y regalos"
+            />
           </IonToolbar>
         </IonHeader>
         <IonContent>
@@ -61,9 +98,14 @@ const MainLayout: React.FC = () => {
             <IonRouterLink routerLink="/tab3">
               <IonItem>
                 <IonAvatar slot="start">
-                  <img alt="Banner usuario" src={user ? user.imagen : "/assets/Images/user.jpg"} />
+                  <img
+                    alt="Banner usuario"
+                    src={user ? user.imagen : "/assets/Images/user.jpg"}
+                  />
                 </IonAvatar>
-                <IonLabel>{user ? `${user.nombre} ${user.aPaterno}` : 'Iniciar sesión'}</IonLabel>
+                <IonLabel>
+                  {user ? `${user.nombre} ${user.aPaterno}` : "Iniciar sesión"}
+                </IonLabel>
               </IonItem>
             </IonRouterLink>
           </IonToolbar>
@@ -83,10 +125,16 @@ const MainLayout: React.FC = () => {
               </IonItem>
 
               {!user ? (
-                <IonItem routerLink="/login">
-                  <IonIcon icon={logIn} slot="start" />
-                  <IonLabel>Iniciar Sesión</IonLabel>
-                </IonItem>
+                <>
+                  <IonItem routerLink="/register">
+                    <IonIcon icon={personAddOutline} slot="start" />
+                    <IonLabel>Registrarme</IonLabel>
+                  </IonItem>
+                  <IonItem routerLink="/login">
+                    <IonIcon icon={logIn} slot="start" />
+                    <IonLabel>Iniciar Sesión</IonLabel>
+                  </IonItem>
+                </>
               ) : (
                 <>
                   <IonItem routerLink="/cart">
@@ -125,8 +173,17 @@ const MainLayout: React.FC = () => {
             <Route exact path="/select-address" component={SelectAddress} />
             <Route exact path="/select-payment" component={SelectPayment} />
             <Route exact path="/search/:term" component={SearchPage} />
-            <Route exact path="/products/categoria/:categoriaId" component={CategoryProducts} />
-            <Route exact path="/product/:productId" component={DetalleProducto} />
+            <Route exact path="/register" component={Register} />
+            <Route
+              exact
+              path="/products/categoria/:categoriaId"
+              component={CategoryProducts}
+            />
+            <Route
+              exact
+              path="/product/:productId"
+              component={DetalleProducto}
+            />
             <Route exact path="/purchase-history" component={PurchaseHistory} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/">
@@ -171,7 +228,7 @@ const MainLayout: React.FC = () => {
       />
 
       {/* IonLoading para mostrar el spinner de carga */}
-      <IonLoading isOpen={loading} message={'Cargando...'} duration={5000} />
+      <IonLoading isOpen={loading} message={"Cargando..."} duration={5000} />
     </>
   );
 };
