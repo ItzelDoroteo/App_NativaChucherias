@@ -1,6 +1,6 @@
 // src/pages/LoginPage.tsx
 import React, { useState } from 'react';
-import { IonContent, IonInput, IonButton, IonToast, IonPage, IonLabel, IonImg, IonHeader, IonTitle, IonToolbar, IonInputPasswordToggle } from '@ionic/react';
+import { IonContent, IonInput, IonButton, IonToast, IonPage, IonLabel, IonImg, IonHeader, IonTitle, IonToolbar, IonInputPasswordToggle, IonRow, IonRouterLink } from '@ionic/react';
 import axios from 'axios';
 import { useAuth } from '../contexts/AuthContext';
 import { useHistory } from 'react-router-dom';
@@ -51,6 +51,9 @@ const LoginPage: React.FC = () => {
       </IonHeader>
 
       <IonContent className="ion-padding">
+        <IonRow className=''>
+          <IonLabel>Olvido su contraseña? <IonRouterLink routerLink="/forgot-password">Recuperar contraseña</IonRouterLink> </IonLabel>
+        </IonRow>
         <div className="login-container">
           <IonImg src="/assets/Images/ChucheriasRegalos.jpg" alt="ChucheriasRegalos" className="login-image" />
 

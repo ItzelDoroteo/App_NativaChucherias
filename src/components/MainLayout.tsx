@@ -14,6 +14,9 @@ import CartPage from '../pages/CartPage';
 import SelectAddress from '../pages/SelectAddress';
 import SelectPayment from '../pages/SelectPayment';
 import PurchaseHistory from '../pages/PurchaseHistory';
+import ForgotPasswordPage from '../pages/ForgotPasswordPage';
+import KeyVerifly from '../pages/KeyVerifly';
+import ChangePassword from '../pages/ChangePassword';
 import { useAuth } from '../contexts/AuthContext';
 import './MainLayout.css';
 
@@ -129,6 +132,9 @@ const MainLayout: React.FC = () => {
             <Route exact path="/product/:productId" component={DetalleProducto} />
             <Route exact path="/purchase-history" component={PurchaseHistory} />
             <Route exact path="/login" component={Login} />
+            <Route exact path="/forgot-password" component={ForgotPasswordPage} />
+            <Route exact path="/key-verification/:correo" component={KeyVerifly} />
+            <Route exact path="/change-password/:correo" component={ChangePassword} />
             <Route exact path="/">
               <Redirect to="/tab1" />
             </Route>
