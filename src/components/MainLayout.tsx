@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { IonContent, IonHeader, IonMenu, IonMenuToggle, IonToolbar, IonTitle, IonPage, IonTabs, IonTabBar, IonTabButton, IonIcon, IonLabel, IonRouterOutlet, IonCol, IonRow, IonImg, IonItem, IonList, IonToast, IonRouterLink, IonLoading, IonAvatar } from '@ionic/react';
-import { home, list, person, logIn, logOut, helpCircleOutline, timeOutline, cartOutline } from 'ionicons/icons';
+import { home, list, person, logIn, logOut, helpCircleOutline, timeOutline, cartOutline, personAddOutline } from 'ionicons/icons';
 import { Redirect, Route, useHistory } from 'react-router-dom';
 import Tab1 from '../pages/Tab1';
 import Tab2 from '../pages/Tab2';
@@ -14,6 +14,10 @@ import CartPage from '../pages/CartPage';
 import SelectAddress from '../pages/SelectAddress';
 import SelectPayment from '../pages/SelectPayment';
 import PurchaseHistory from '../pages/PurchaseHistory';
+import ForgotPasswordPage from '../pages/ForgotPasswordPage';
+import KeyVerifly from '../pages/KeyVerifly';
+import ChangePassword from '../pages/ChangePassword';
+import Register from '../pages/Register';
 import { useAuth } from '../contexts/AuthContext';
 import './MainLayout.css';
 
