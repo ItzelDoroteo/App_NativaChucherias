@@ -1,4 +1,4 @@
-name: Check outdated dependencies and build Ionic app
+name: Check outdated dependencies, lint, and build Ionic app
 
 on: 
   push:
@@ -44,6 +44,9 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Lint code
+        run: npm run lint
+
       - name: Run unit tests
         run: npm run test.unit
 
@@ -62,6 +65,11 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Lint code
+        run: npm run lint
+
       - name: Build Ionic app
         run: npm run build
-
+  
+  
+  
