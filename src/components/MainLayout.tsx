@@ -49,6 +49,7 @@ import SelectPayment from "../pages/SelectPayment";
 import PurchaseHistory from "../pages/PurchaseHistory";
 import { useAuth } from "../contexts/AuthContext";
 import Register from "../pages/Register";
+import NewAddress from "../pages/NewAddress";
 import "./MainLayout.css";
 
 const MainLayout: React.FC = () => {
@@ -186,6 +187,7 @@ const MainLayout: React.FC = () => {
             />
             <Route exact path="/purchase-history" component={PurchaseHistory} />
             <Route exact path="/login" component={Login} />
+            <Route exact path="/new-address" component={NewAddress} />
             <Route exact path="/">
               <Redirect to="/tab1" />
             </Route>
