@@ -20,7 +20,7 @@ const CategoryCards: React.FC = () => {
   const history = useHistory();
 
   useEffect(() => {
-    axios.get('http://localhost:5000/products/categories/getAll')
+    axios.get('https://backend-c-r-production.up.railway.app/products/categories/getAll')
       .then(response => {
         const fetchedCategories = response.data;
         setCategories(fetchedCategories);
@@ -34,7 +34,7 @@ const CategoryCards: React.FC = () => {
   }, []);
 
   const getFirstProductImage = (categoriaId: number) => {
-    axios.get('http://localhost:5000/products/')
+    axios.get('https://backend-c-r-production.up.railway.app/products/')
       .then(response => {
         const products = response.data;
         const product = products.find((p: Product) => p.categoriaId === categoriaId);

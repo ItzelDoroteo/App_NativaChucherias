@@ -30,7 +30,7 @@ const SearchPage: React.FC = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.post('http://localhost:5000/products/search', { search: term });
+        const response = await axios.post('https://backend-c-r-production.up.railway.app/products/search', { search: term });
         setProducts(response.data);
       } catch (error) {
         console.error('Error fetching products:', error);

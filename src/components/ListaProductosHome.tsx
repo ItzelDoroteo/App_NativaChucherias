@@ -46,12 +46,12 @@ const ListaProductos: React.FC = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch('http://localhost:5000/products/');
+        const response = await fetch('https://backend-c-r-production.up.railway.app/products/');
         const data = await response.json();
         setProducts(data);
 
         // Consumir la API para los productos del carrusel
-        const carouselResponse = await fetch('http://localhost:5000/products/productos/mas-vendidos'); // Cambia la URL a la de tu API de carrusel
+        const carouselResponse = await fetch('https://backend-c-r-production.up.railway.app/products/productos/mas-vendidos'); // Cambia la URL a la de tu API de carrusel
         const carouselData = await carouselResponse.json();
         setCarouselProducts(carouselData);
       } catch (error) {

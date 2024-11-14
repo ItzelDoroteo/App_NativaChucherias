@@ -49,11 +49,11 @@ const DetalleProducto: React.FC = () => {
     useEffect(() => {
         const fetchProduct = async () => {
             try {
-                const response = await axios.get(`http://localhost:5000/products/${productId}`);
+                const response = await axios.get(`https://backend-c-r-production.up.railway.app/products/${productId}`);
                 setProduct(response.data);
 
                 // Consumir la API para los productos del carrusel
-                const carouselResponse = await fetch('http://localhost:5000/products/randomProducts');
+                const carouselResponse = await fetch('https://backend-c-r-production.up.railway.app/products/randomProducts');
                 const carouselData = await carouselResponse.json();
                 setCarouselProducts(carouselData);
             } catch (error) {

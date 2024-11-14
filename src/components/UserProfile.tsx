@@ -14,7 +14,7 @@ const UserProfile: React.FC = () => {
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/users/${user?.customerId}`);
+        const response = await axios.get(`https://backend-c-r-production.up.railway.app/users/${user?.customerId}`);
         setUserData(response.data); // Guardar los datos del usuario obtenidos
       } catch (error) {
         console.error('Error fetching user profile:', error);
@@ -41,7 +41,7 @@ const UserProfile: React.FC = () => {
     formData.append('imagen', selectedFile); // Añadir el archivo de imagen al FormData
 
     try {
-      await axios.put(`http://localhost:5000/users/banner/${user?.customerId}`, formData);
+      await axios.put(`https://backend-c-r-production.up.railway.app/users/banner/${user?.customerId}`, formData);
       setShowToast(true); // Mostrar confirmación de éxito
     } catch (error) {
       console.error('Error updating user banner:', error);

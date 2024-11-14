@@ -23,7 +23,7 @@ const CategoryProducts: React.FC = () => {
     useEffect(() => {
         const fetchProductsByCategory = async () => {
             try {
-                const productResponse = await axios.get(`http://localhost:5000/products/categoria/${categoriaId}`);
+                const productResponse = await axios.get(`https://backend-c-r-production.up.railway.app/products/categoria/${categoriaId}`);
                 setProducts(productResponse.data);
             } catch (error) {
                 console.error('Error fetching products by category:', error);
@@ -32,7 +32,7 @@ const CategoryProducts: React.FC = () => {
 
         const fetchCategoryName = async () => {
             try {
-                const categoryResponse = await axios.get('http://localhost:5000/products/categories/getAll');
+                const categoryResponse = await axios.get('https://backend-c-r-production.up.railway.app/products/categories/getAll');
                 const category = categoryResponse.data.find((cat: Category) => cat.categoriaId.toString() === categoriaId);
                 if (category) {
                     setCategoryName(category.categoria);

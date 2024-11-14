@@ -48,7 +48,7 @@ const NewAddress: React.FC = () => {
     if (!codigo) return;
   
     try {
-      const response = await axios.get(`http://localhost:5000/address/get-colonias/${codigo}`);
+      const response = await axios.get(`https://backend-c-r-production.up.railway.app/address/get-colonias/${codigo}`);
       const data: AddressData[] = response.data;
       console.log("Datos recibidos", data);
   
@@ -87,7 +87,7 @@ const NewAddress: React.FC = () => {
 
     try {
 
-      const response = await axios.post('http://localhost:5000/address/add-domicilio', {
+      const response = await axios.post('https://backend-c-r-production.up.railway.app/address/add-domicilio', {
         customerId: customerId,
         Nombre: nombre,
         Calle: calle,

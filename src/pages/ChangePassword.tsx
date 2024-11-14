@@ -39,7 +39,7 @@ const ChangePassword = () => {
 
         try {
             const response = await axios.post(
-                "http://localhost:5000/users/changePassword",
+                "https://backend-c-r-production.up.railway.app/users/changePassword",
                 {
                     correo: correo,
                     nuevaContraseña: password,

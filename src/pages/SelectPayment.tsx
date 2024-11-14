@@ -43,7 +43,7 @@ const SelectPayment: React.FC = () => {
         try {
             if (!user || !venta) return;
 
-            const response = await axios.post('http://localhost:5000/ventas/', {
+            const response = await axios.post('https://backend-c-r-production.up.railway.app/ventas/', {
                 metodoPagoId: 1,
                 customerId: user.customerId,
                 venta,

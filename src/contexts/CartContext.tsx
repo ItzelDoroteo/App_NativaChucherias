@@ -40,7 +40,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode; value?: CartCon
       const storedCart = localStorage.getItem('cart');
       const localCart = storedCart ? JSON.parse(storedCart) : [];
 
-      const { data } = await axios.get(`http://localhost:5000/cart/${customerId}`);
+      const { data } = await axios.get(`https://backend-c-r-production.up.railway.app/cart/${customerId}`);
       const combinedCart = mergeCarts(localCart, data);
 
       setCart(combinedCart);
@@ -83,7 +83,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode; value?: CartCon
         } else {
           updatedCart = [...cart, producto];
           const cartItemWithCustomer = { customerId: user.customerId, ...producto };
-          await axios.post('http://localhost:5000/cart/', cartItemWithCustomer);
+          await axios.post('https://backend-c-r-production.up.railway.app/cart/', cartItemWithCustomer);
         }
 
         setCart(updatedCart);
@@ -100,7 +100,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode; value?: CartCon
         const updatedCart = cart.map(item => (item.productoId === productoId ? { ...item, cantidad } : item));
         setCart(updatedCart);
         localStorage.setItem('cart', JSON.stringify(updatedCart));
-        await axios.put(`http://localhost:5000/cart/${user.customerId}/${productoId}`, { cantidad });
+        await axios.put(`https://backend-c-r-production.up.railway.app/cart/${user.customerId}/${productoId}`, { cantidad });
       } catch (error) {
         console.error('Error updating item:', error);
       }
@@ -113,7 +113,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode; value?: CartCon
         const updatedCart = cart.filter(item => item.productoId !== productoId);
         setCart(updatedCart);
         localStorage.setItem('cart', JSON.stringify(updatedCart));
-        await axios.delete(`http://localhost:5000/cart/`, { data: { productoId, customerId: user.customerId } });
+        await axios.delete(`https://backend-c-r-production.up.railway.app/cart/`, { data: { productoId, customerId: user.customerId } });
       } catch (error) {
         console.error('Error removing item:', error);
       }
@@ -125,7 +125,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode; value?: CartCon
       try {
         setCart([]);
         localStorage.removeItem('cart');
-        await axios.delete(`http://localhost:5000/cart/clear/${user.customerId}`);
+        await axios.delete(`https://backend-c-r-production.up.railway.app/cart/clear/${user.customerId}`);
       } catch (error) {
         console.error('Error clearing cart:', error);
       }

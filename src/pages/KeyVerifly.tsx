@@ -20,7 +20,7 @@ const KeyVerifly: React.FC = () => {
     const handleSubmit = async () => {
         setIsLoading(true);
         try {
-            const response = await axios.post("http://localhost:5000/users/keyCompare", {
+            const response = await axios.post("https://backend-c-r-production.up.railway.app/users/keyCompare", {
                 correo: correo,
                 clave: otp,
             });
@@ -57,7 +57,7 @@ const KeyVerifly: React.FC = () => {
         setIsResending(true);
 
         try {
-            await axios.post("http://localhost:5000/users/forgotPassword", { correo });
+            await axios.post("https://backend-c-r-production.up.railway.app/users/forgotPassword", { correo });
             setAlertMessage("Código reenviado a su correo.");
             setAlertColor("success");
             setShowAlert(true);
@@ -74,7 +74,7 @@ const KeyVerifly: React.FC = () => {
 
     const handleClick = async () => {
         try {
-            await axios.post("http://localhost:5000/users/sedKeyWhatsApp", { correo });
+            await axios.post("https://backend-c-r-production.up.railway.app/users/sedKeyWhatsApp", { correo });
             setAlertMessage("Código enviado por WhatsApp.");
             setAlertColor("success");
             setShowAlert(true);

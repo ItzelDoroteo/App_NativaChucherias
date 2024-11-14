@@ -1,6 +1,6 @@
 describe('Tab1 Component', () => {
     beforeEach(() => {
-      cy.intercept('GET', 'http://localhost:5000/products', {
+      cy.intercept('GET', 'https://backend-c-r-production.up.railway.app/products', {
         fixture: 'products.json', // crea este archivo de ejemplo en cypress/fixtures/
       }).as('getProducts');
   
@@ -20,7 +20,7 @@ describe('Tab1 Component', () => {
   
     it('should handle API error gracefully', () => {
       // Simula un error en la respuesta de la API
-      cy.intercept('GET', 'http://localhost:5000/products', {
+      cy.intercept('GET', 'https://backend-c-r-production.up.railway.app/products', {
         statusCode: 500,
       }).as('getProductsError');
   

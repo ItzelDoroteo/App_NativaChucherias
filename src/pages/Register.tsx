@@ -84,7 +84,7 @@ const Register: React.FC = () => {
 
       console.log(formData);
       // Enviar los datos a la API
-      const response = await axios.post("http://localhost:5000/users", formData);
+      const response = await axios.post("https://backend-c-r-production.up.railway.app/users", formData);
 
 
       if (response.status === 201) {

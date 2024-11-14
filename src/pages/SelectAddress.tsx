@@ -52,12 +52,12 @@ const SelectAddress: React.FC = () => {
       const UserId = user.customerId;
 
       // Obtener sucursales
-      axios.get('http://localhost:5000/address/get-sucursal')
+      axios.get('https://backend-c-r-production.up.railway.app/address/get-sucursal')
         .then(response => setSucursales(response.data))
         .catch(error => console.error('Error fetching sucursales data:', error));
 
       // Obtener domicilios
-      axios.get(`http://localhost:5000/address/get-domicilio/${UserId}`)
+      axios.get(`https://backend-c-r-production.up.railway.app/address/get-domicilio/${UserId}`)
         .then(response => setDomicilios(response.data))
         .catch(error => console.error('Error fetching domicilios data:', error));
     }
@@ -65,7 +65,7 @@ const SelectAddress: React.FC = () => {
 
   const handleSelectDomicilio = async (domicilioId: number, cp: string) => {
     try {
-      const response = await axios.get(`http://localhost:5000/address/get-colonias/${cp}`);
+      const response = await axios.get(`https://backend-c-r-production.up.railway.app/address/get-colonias/${cp}`);
       const data = response.data;
       const envio = parseFloat(data[0]?.envio) || 0;
       setEnvio(envio);

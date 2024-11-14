@@ -16,7 +16,7 @@ const LoginPage: React.FC = () => {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post('http://localhost:5000/users/login', {
+      const response = await axios.post('https://backend-c-r-production.up.railway.app/users/login', {
         correo,
         contraseña
       });

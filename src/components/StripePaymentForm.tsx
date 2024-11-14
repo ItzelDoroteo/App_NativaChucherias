@@ -43,7 +43,7 @@ const StripePaymentForm: React.FC<{ onSuccess: () => void }> = ({ onSuccess }) =
 
         try {
             // Crea el paymentIntent en el servidor
-            const { data } = await axios.post('http://localhost:5000/ventas/create-checkout-session-movil', {
+            const { data } = await axios.post('https://backend-c-r-production.up.railway.app/ventas/create-checkout-session-movil', {
                 venta: ventaData,
                 customerId: user?.customerId,
             });
