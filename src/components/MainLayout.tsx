@@ -49,6 +49,10 @@ import SelectPayment from "../pages/SelectPayment";
 import PurchaseHistory from "../pages/PurchaseHistory";
 import { useAuth } from "../contexts/AuthContext";
 import Register from "../pages/Register";
+import ForgotPasswordPage from '../pages/ForgotPasswordPage';
+import KeyVerifly from '../pages/KeyVerifly';
+import ChangePassword from '../pages/ChangePassword';
+import NewAddress from "../pages/NewAddress";
 import "./MainLayout.css";
 
 const MainLayout: React.FC = () => {
@@ -174,6 +178,10 @@ const MainLayout: React.FC = () => {
             <Route exact path="/select-payment" component={SelectPayment} />
             <Route exact path="/search/:term" component={SearchPage} />
             <Route exact path="/register" component={Register} />
+            <Route exact path="/forgot-password" component={ForgotPasswordPage} />
+            <Route exact path="/key-verification/:correo" component={KeyVerifly} />
+            <Route exact path="/change-password/:correo" component={ChangePassword} />
+            <Route exact path="/new-address" component={NewAddress} />
             <Route
               exact
               path="/products/categoria/:categoriaId"

@@ -129,7 +129,6 @@ const SelectAddress: React.FC = () => {
     };
 
     localStorage.setItem('Venta', JSON.stringify(Venta));
-    console.log(localStorage.getItem('Venta'));
   }, [cart, envio, direccionSeleccionada, sucursalSeleccionada, totalItemsEnCarrito]);
 
   return (
