@@ -1,25 +1,55 @@
-import React, { useState } from 'react';
-import { IonContent, IonHeader, IonMenu, IonMenuToggle, IonToolbar, IonTitle, IonPage, IonTabs, IonTabBar, IonTabButton, IonIcon, IonLabel, IonRouterOutlet, IonCol, IonRow, IonImg, IonItem, IonList, IonToast, IonRouterLink, IonLoading, IonAvatar } from '@ionic/react';
-import { home, list, person, logIn, logOut, helpCircleOutline, timeOutline, cartOutline, personAddOutline } from 'ionicons/icons';
-import { Redirect, Route, useHistory } from 'react-router-dom';
-import Tab1 from '../pages/Tab1';
-import Tab2 from '../pages/Tab2';
-import Tab3 from '../pages/Tab3';
-import Tab4 from '../pages/Tab4';
-import Login from '../pages/Login';
-import CategoryProducts from '../pages/CategoryProducts';
-import DetalleProducto from '../pages/DetalleProducto';
-import SearchPage from '../pages/SearchPage';
-import CartPage from '../pages/CartPage';
-import SelectAddress from '../pages/SelectAddress';
-import SelectPayment from '../pages/SelectPayment';
-import PurchaseHistory from '../pages/PurchaseHistory';
-import ForgotPasswordPage from '../pages/ForgotPasswordPage';
-import KeyVerifly from '../pages/KeyVerifly';
-import ChangePassword from '../pages/ChangePassword';
-import Register from '../pages/Register';
-import { useAuth } from '../contexts/AuthContext';
-import './MainLayout.css';
+import React, { useState } from "react";
+import {
+  IonContent,
+  IonHeader,
+  IonMenu,
+  IonMenuToggle,
+  IonToolbar,
+  IonTitle,
+  IonPage,
+  IonTabs,
+  IonTabBar,
+  IonTabButton,
+  IonIcon,
+  IonLabel,
+  IonRouterOutlet,
+  IonCol,
+  IonRow,
+  IonImg,
+  IonItem,
+  IonList,
+  IonToast,
+  IonRouterLink,
+  IonLoading,
+  IonAvatar,
+} from "@ionic/react";
+import {
+  home,
+  list,
+  person,
+  logIn,
+  logOut,
+  helpCircleOutline,
+  timeOutline,
+  cartOutline,
+  personAddOutline,
+} from "ionicons/icons";
+import { Redirect, Route, useHistory } from "react-router-dom";
+import Tab1 from "../pages/Tab1";
+import Tab2 from "../pages/Tab2";
+import Tab3 from "../pages/Tab3";
+import Tab4 from "../pages/Tab4";
+import Login from "../pages/Login";
+import CategoryProducts from "../pages/CategoryProducts";
+import DetalleProducto from "../pages/DetalleProducto";
+import SearchPage from "../pages/SearchPage";
+import CartPage from "../pages/CartPage";
+import SelectAddress from "../pages/SelectAddress";
+import SelectPayment from "../pages/SelectPayment";
+import PurchaseHistory from "../pages/PurchaseHistory";
+import { useAuth } from "../contexts/AuthContext";
+import Register from "../pages/Register";
+import "./MainLayout.css";
 
 const MainLayout: React.FC = () => {
   const { user, logout } = useAuth();
@@ -156,9 +186,6 @@ const MainLayout: React.FC = () => {
             />
             <Route exact path="/purchase-history" component={PurchaseHistory} />
             <Route exact path="/login" component={Login} />
-            <Route exact path="/forgot-password" component={ForgotPasswordPage} />
-            <Route exact path="/key-verification/:correo" component={KeyVerifly} />
-            <Route exact path="/change-password/:correo" component={ChangePassword} />
             <Route exact path="/">
               <Redirect to="/tab1" />
             </Route>
