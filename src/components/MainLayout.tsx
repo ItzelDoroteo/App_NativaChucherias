@@ -63,26 +63,18 @@ const MainLayout: React.FC = () => {
 
   const cierreSession = async () => {
     try {
-      // Llamada a la función de cierre de sesión
       logout();
-
-      // Eliminar solo el carrito del localStorage
       localStorage.removeItem("cart");
-
-      // Mostrar el toast de éxito de cierre de sesión
       setShowToast(true);
-
-      // Redirigir a la página de inicio o login
       history.push("/login");
     } catch (error: any) {
       console.log(error);
     }
   };
 
-  // Escuchar cambios en la ruta para controlar el spinner
   history.listen((location, action) => {
     setLoading(true);
-    setTimeout(() => setLoading(false), 1000); // Simula un retraso en la carga, ajustable
+    setTimeout(() => setLoading(false), 1000);
   });
 
   return (
