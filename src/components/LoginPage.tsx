@@ -54,23 +54,23 @@ const LoginPage: React.FC = () => {
 
         <div className="login-container">
           <IonImg src="/assets/Images/Chucherias.png" alt="ChucheriasRegalos" className="login-image" />
-          
 
-          <IonLabel>Correo</IonLabel>
+
+          <IonLabel><strong>Correo electronico:</strong></IonLabel>
           <IonInput
             id="email-input"
-            placeholder="Correo"
+            placeholder="Ingrese su correo"
             value={correo}
             onIonChange={(e) => setCorreo(e.detail.value!)}
             className="login-input"
             clearInput
           />
 
-          <IonLabel>Contraseña</IonLabel>
+          <IonLabel><strong>Contraseña:</strong></IonLabel>
           <IonInput
             id="password-input"
             type="password"
-            placeholder="Contraseña"
+            placeholder="Ingrese su contraseña"
             value={contraseña}
             onIonChange={(e) => setContraseña(e.detail.value!)}
             className="login-input"
@@ -91,8 +91,9 @@ const LoginPage: React.FC = () => {
             color="primary"
           />
 
-<IonRow className='ion-padding'>
-            <IonLabel>Olvido su contraseña? <IonRouterLink routerLink="/forgot-password">Recuperar contraseña</IonRouterLink> </IonLabel>
+          <IonRow className='text-center'>
+            <IonLabel>¿Olvido su contraseña?</IonLabel><br/>
+            <IonRouterLink routerLink="/forgot-password">Recuperar contraseña</IonRouterLink>
           </IonRow>
         </div>
       </IonContent>

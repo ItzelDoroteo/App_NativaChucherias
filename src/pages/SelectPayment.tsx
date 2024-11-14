@@ -1,29 +1,42 @@
 import React, { useEffect, useState } from 'react';
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonRadio, IonRadioGroup, IonLabel, IonButton, IonItem, IonCard, IonCardHeader, IonCardContent, IonFooter, IonCardTitle, IonIcon } from '@ionic/react';
+import { IonPage, IonContent, IonRadio, IonRadioGroup, IonLabel, IonButton, IonItem, IonCard, IonCardHeader, IonCardContent, IonFooter, IonCardTitle, IonIcon } from '@ionic/react';
 import axios from 'axios';
-import { walletOutline, storefrontOutline } from 'ionicons/icons';;
+import { walletOutline, storefrontOutline } from 'ionicons/icons';
 import { useAuth } from '../contexts/AuthContext';
 import { useHistory } from 'react-router-dom';
 import LayoutPage from '../components/LayoutPage';
-import './CartPage.css'
+import './CartPage.css';
+import StripePaymentForm from '../components/StripePaymentForm';
+import { loadStripe } from '@stripe/stripe-js';
+import { Elements } from '@stripe/react-stripe-js';
+
+const stripePromise = loadStripe('pk_test_51Pf8IA2NI1ZNadeOLivsZnTK9wtGno4CEo8viraLEc0NBdl9CFbhubTvVVuo7gpznAfJt6mqR10IhaeVQQNutEQ500WkPoYuht');
 
 const SelectPayment: React.FC = () => {
     const { user } = useAuth();
     const [venta, setVenta] = useState<any>(null);
     const [selectedPayment, setSelectedPayment] = useState<string>('');
+    const [showStripeForm, setShowStripeForm] = useState<boolean>(false);
     const history = useHistory();
 
     useEffect(() => {
         const ventaJSON = localStorage.getItem('Venta');
         if (ventaJSON) {
             const item = JSON.parse(ventaJSON);
-            console.log(item)
             setVenta(item);
         }
     }, []);
 
     const handleMetodoPagoChange = (event: CustomEvent) => {
-        setSelectedPayment(event.detail.value);
+        const value = event.detail.value;
+        setSelectedPayment(value);
+
+        // Mostrar el formulario de Stripe solo si se selecciona ese método
+        if (value === 'stripe') {
+            setShowStripeForm(true);
+        } else {
+            setShowStripeForm(false);
+        }
     };
 
     const handlePagarEnSucursalClick = async () => {
@@ -41,58 +54,15 @@ const SelectPayment: React.FC = () => {
                 history.push('/purchase-history'); // Redirigir al historial de compras
             }, 3000);
 
-            console.log('Venta creada:', response.data);
         } catch (error) {
             console.error('Error al crear la venta:', error);
             alert('Error al crear la venta.');
         }
     };
 
-    
     const handleStripeCheckout = async () => {
-        try {
-            if (!user || !venta) return;
-    
-            const items = venta.productos.map((item: any) => ({
-                title: item.producto,
-                quantity: item.cantidad,
-                price: Math.round(item.precio * 100), // Stripe maneja centavos
-                imagen: item.imagen,
-            }));
-    
-            let shipping = null;
-            if (venta.domicilioId) {
-                shipping = {
-                    price: Math.round(venta.totalEnvio * 100),
-                };
-            }
-    
-            const response = await axios.post('http://localhost:5000/ventas/create-checkout-session-movil', {
-                items,
-                shipping,
-                venta,
-                customerId: user.customerId,
-                metodoPagoId: 4,
-            });
-    
-            console.log('Respuesta del servidor:', response.data);
-    
-            const { id } = response.data; // Asegúrate de que esto sea válido
-    
-            const stripe = (window as any).Stripe('pk_test_51Pf8IA2NI1ZNadeOLivsZnTK9wtGno4CEo8viraLEc0NBdl9CFbhubTvVVuo7gpznAfJt6mqR10IhaeVQQNutEQ500WkPoYuht');
-            const result = await stripe.redirectToCheckout({ sessionId: id });
-    
-            if (result.error) {
-                console.error('Error al redirigir a Stripe:', result.error.message);
-                alert(result.error.message);
-            }
-        } catch (error:any) {
-            console.error('Error al redirigir a Stripe Checkout:', error.response ? error.response.data : error.message);
-            alert('Error al iniciar el pago con Stripe.');
-        }
+        console.log("¡Pago completado exitosamente!");
     };
-    
-    
 
     const renderPaymentButton = () => {
         switch (selectedPayment) {
@@ -103,11 +73,7 @@ const SelectPayment: React.FC = () => {
                     </IonButton>
                 );
             case 'stripe':
-                return (
-                    <IonButton onClick={handleStripeCheckout} expand="block" color="primary">
-                        Pagar con Tarjeta (Stripe)
-                    </IonButton>
-                );
+                return null;
             default:
                 return null;
         }
@@ -132,11 +98,16 @@ const SelectPayment: React.FC = () => {
                                         <IonRadio slot="start" value="stripe" />
                                         <IonLabel className='item-payment'><IonIcon icon={walletOutline} className='ml-4' />Pagar con tarjeta (Stripe)</IonLabel>
                                     </IonItem>
+                                    {showStripeForm && (
+                                        <Elements stripe={stripePromise}>
+                                            <StripePaymentForm onSuccess={handleStripeCheckout} />
+                                        </Elements>
+                                    )}
                                 </IonRadioGroup>
                             </IonCardContent>
+
                         </IonCard>
                     </div>
-
 
 
                 </IonContent>
@@ -186,7 +157,6 @@ const SelectPayment: React.FC = () => {
                         </IonCard>
                     )}
                 </IonFooter>
-
             </LayoutPage>
         </IonPage>
     );

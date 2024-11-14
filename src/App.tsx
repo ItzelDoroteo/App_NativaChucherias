@@ -5,6 +5,8 @@ import { Route } from 'react-router-dom';
 import MainLayout from './components/MainLayout';
 import { AuthProvider } from './contexts/AuthContext';
 import { CartProvider } from './contexts/CartContext';
+import { Elements } from '@stripe/react-stripe-js'; // Importar Elements
+import { loadStripe } from '@stripe/stripe-js'; // Importar loadStripe
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -24,13 +26,18 @@ import './theme/variables.css';
 
 setupIonicReact();
 
+// Carga tu clave pública de Stripe
+const stripePromise = loadStripe('pk_test_51Pf8IA2NI1ZNadeOLivsZnTK9wtGno4CEo8viraLEc0NBdl9CFbhubTvVVuo7gpznAfJt6mqR10IhaeVQQNutEQ500WkPoYuht');
+
 const App: React.FC = () => (
   <IonApp>
     <AuthProvider>
       <CartProvider>
-        <IonReactRouter>
-          <Route path="/" component={MainLayout} exact={false} />
-        </IonReactRouter>
+        <Elements stripe={stripePromise}>
+          <IonReactRouter>
+            <Route path="/" component={MainLayout} exact={false} />
+          </IonReactRouter>
+        </Elements>
       </CartProvider>
     </AuthProvider>
   </IonApp>
