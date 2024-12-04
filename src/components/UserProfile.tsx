@@ -1,21 +1,31 @@
 import React, { useState, useEffect } from 'react';
-import { IonContent, IonHeader, IonText, IonAvatar, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonImg, IonButton, IonItem, IonLabel, IonInput, IonSpinner, IonToast } from '@ionic/react';
+import { IonContent, IonAvatar, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonImg, IonButton, IonItem, IonLabel, IonInput, IonSpinner, IonToast } from '@ionic/react';
 import axios from 'axios';
 import { useAuth } from '../contexts/AuthContext';
-import './UserProfile.css'
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
+import './UserProfile.css';
 
 const UserProfile: React.FC = () => {
-  const { user } = useAuth(); // Obtener el usuario y el token del contexto
+  const { user } = useAuth();
   const [userData, setUserData] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [showToast, setShowToast] = useState<boolean>(false);
+  const [photo, setPhoto] = useState<string | undefined>(undefined);
+
+  useEffect(() => {
+    const ionPages = document.querySelectorAll('.ion-page');
+    ionPages.forEach(ionPage => {
+      // Elimina la clase 'ion-page-invisible' de todos los elementos con clase 'ion-page'
+      ionPage.classList.remove('ion-page-invisible', 'ion-page-hidden');
+    });
+  }, []);
 
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
         const response = await axios.get(`https://backend-c-r-production.up.railway.app/users/${user?.customerId}`);
-        setUserData(response.data); // Guardar los datos del usuario obtenidos
+        setUserData(response.data);
       } catch (error) {
         console.error('Error fetching user profile:', error);
       } finally {
@@ -30,21 +40,48 @@ const UserProfile: React.FC = () => {
 
   const handleImageChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
-      setSelectedFile(event.target.files[0]); // Guardar el archivo seleccionado
+      setSelectedFile(event.target.files[0]);
     }
   };
 
   const handleImageUpload = async () => {
-    if (!selectedFile) return;
+    if (!selectedFile && !photo) return;
 
     const formData = new FormData();
-    formData.append('imagen', selectedFile); // Añadir el archivo de imagen al FormData
+    const fileToUpload = selectedFile || new File([photo!], 'profile.jpg', { type: 'image/jpeg' });
+    formData.append('imagen', fileToUpload); // Añadir el archivo de imagen al FormData
 
     try {
       await axios.put(`https://backend-c-r-production.up.railway.app/users/banner/${user?.customerId}`, formData);
       setShowToast(true); // Mostrar confirmación de éxito
     } catch (error) {
       console.error('Error updating user banner:', error);
+    }
+  };
+
+  const takePhoto = async () => {
+    try {
+      const image = await Camera.getPhoto({
+        quality: 90,
+        resultType: CameraResultType.Uri,
+        source: CameraSource.Camera, // Tomar la foto desde la cámara
+      });
+      setPhoto(image.webPath); // Guardar la imagen obtenida
+    } catch (error) {
+      console.error('Error tomando la foto', error);
+    }
+  };
+
+  const chooseFromGallery = async () => {
+    try {
+      const image = await Camera.getPhoto({
+        quality: 90,
+        resultType: CameraResultType.Uri,
+        source: CameraSource.Photos, // Seleccionar desde la galería
+      });
+      setPhoto(image.webPath); // Guardar la imagen seleccionada
+    } catch (error) {
+      console.error('Error seleccionando imagen de la galería', error);
     }
   };
 
@@ -59,11 +96,12 @@ const UserProfile: React.FC = () => {
   return (
     <IonContent>
       <IonCard>
-        <IonCardHeader class='content'>
+        <IonCardHeader className='content'>
           <IonCardTitle>{user?.nombre} {user?.aPaterno} {user?.aMaterno}</IonCardTitle>
           <IonAvatar className='banner'>
-        <img src={userData.imagen || '/assets/Images/user.jpg'} alt="Foto del Usuario" />
-      </IonAvatar>
+            {/* Mostrar la imagen de la cámara o la que se haya seleccionado */}
+            <img src={photo || userData.imagen || '/assets/Images/user.jpg'} alt="Foto del Usuario" />
+          </IonAvatar>
         </IonCardHeader>
         <IonCardContent>
           {/* Inputs deshabilitados con la información del usuario */}
@@ -92,12 +130,20 @@ const UserProfile: React.FC = () => {
             <IonInput value={new Date(userData.createdAt).toLocaleDateString()} disabled />
           </IonItem>
 
+          {/* Opciones para tomar foto o elegir desde la galería */}
+          <IonButton expand="block" onClick={takePhoto}>
+            Tomar Foto
+          </IonButton>
+          <IonButton expand="block" onClick={chooseFromGallery}>
+            Elegir de la Galería
+          </IonButton>
+
           {/* Selector de archivo para cambiar el banner */}
           <IonItem>
             <input type="file" accept="image/*" onChange={handleImageChange} />
           </IonItem>
 
-          <IonButton expand="block" onClick={handleImageUpload} disabled={!selectedFile}>
+          <IonButton expand="block" onClick={handleImageUpload} disabled={!selectedFile && !photo}>
             Cambiar imagen de perfil
           </IonButton>
         </IonCardContent>

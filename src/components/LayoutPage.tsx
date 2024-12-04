@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar, IonSearchbar, IonIcon, IonRouterLink, IonBadge, IonToast } from '@ionic/react';
 import { cartOutline } from 'ionicons/icons';
 import './LayoutPage.css';
@@ -17,6 +17,14 @@ const LayoutPage: React.FC<LayoutPageProps> = ({ children }) => {
   const [showToast, setShowToast] = useState(false);
   const totalItems = cart.reduce((acc, item) => acc + item.cantidad, 0);
   const history = useHistory(); // Usar el hook de history
+
+  useEffect(() => {
+    const ionPages = document.querySelectorAll('.ion-page');
+    ionPages.forEach(ionPage => {
+      // Elimina la clase 'ion-page-invisible' de todos los elementos con clase 'ion-page'
+      ionPage.classList.remove('ion-page-invisible', 'ion-page-hidden');
+    });
+  }, []);
 
   const handleCartClick = (e: React.MouseEvent) => {
     if (!user) {
@@ -59,7 +67,7 @@ const LayoutPage: React.FC<LayoutPageProps> = ({ children }) => {
             </IonButtons>
           </IonToolbar>
         </IonHeader>
-        <IonContent>
+        <IonContent style={{ '--background': '#ffffff' }}>
           {children}
         </IonContent>
 

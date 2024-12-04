@@ -80,6 +80,14 @@ const PurchaseHistory: React.FC = () => {
             }
         };
 
+        useEffect(() => {
+            const ionPages = document.querySelectorAll('.ion-page');
+            ionPages.forEach(ionPage => {
+                // Elimina la clase 'ion-page-invisible' de todos los elementos con clase 'ion-page'
+                ionPage.classList.remove('ion-page-invisible', 'ion-page-hidden');
+            });
+        }, []);
+
         const fetchStatusList = async () => {
             try {
                 const statusResponse = await axios.get('https://backend-c-r-production.up.railway.app/ventas/status/getAllStatusVenta');
@@ -105,12 +113,12 @@ const PurchaseHistory: React.FC = () => {
                 folio: folioVenta,
                 reason: cancelReason,
             });
-    
+
             // Mostrar el mensaje de éxito
             setToastMessage('Compra cancelada con éxito');
             setToastColor('success');
             setShowToast(true);
-    
+
             // Actualizar el historial de compras obteniendo los datos más recientes de la API
             const response = await axios.get(`https://backend-c-r-production.up.railway.app/ventas/cliente/${user?.customerId}`);
             const purchases = await Promise.all(
@@ -120,7 +128,7 @@ const PurchaseHistory: React.FC = () => {
                 })
             );
             setPurchaseHistory(purchases); // Actualizar el estado con los nuevos datos
-    
+
             // Cerrar el modal de cancelación
             setCancelModalOpen(false);
         } catch (error) {
@@ -130,7 +138,7 @@ const PurchaseHistory: React.FC = () => {
             setShowToast(true);
         }
     };
-    
+
 
     const handleNextPage = () => setCurrentPage((prevPage) => prevPage + 1);
     const handlePrevPage = () => setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
@@ -171,45 +179,45 @@ const PurchaseHistory: React.FC = () => {
                 </div>
 
                 <IonModal
-  isOpen={cancelModalOpen}
-  onDidDismiss={() => setCancelModalOpen(false)}
-  className="cancel-purchase-modal"
->
-  <IonHeader>
-    <IonToolbar>
-      <IonTitle>Cancelar Compra</IonTitle>
-    </IonToolbar>
-  </IonHeader>
-  <IonContent>
-    <IonItem lines="none" className="modal-item">
-      <IonLabel position="stacked">Motivo de cancelación</IonLabel>
-      <IonInput
-        value={cancelReason}
-        onIonChange={(e) => setCancelReason(e.detail.value!)}
-        className="modal-input"
-        placeholder="Escribe el motivo aquí"
-      />
-    </IonItem>
+                    isOpen={cancelModalOpen}
+                    onDidDismiss={() => setCancelModalOpen(false)}
+                    className="cancel-purchase-modal"
+                >
+                    <IonHeader>
+                        <IonToolbar>
+                            <IonTitle>Cancelar Compra</IonTitle>
+                        </IonToolbar>
+                    </IonHeader>
+                    <IonContent>
+                        <IonItem lines="none" className="modal-item">
+                            <IonLabel position="stacked">Motivo de cancelación</IonLabel>
+                            <IonInput
+                                value={cancelReason}
+                                onIonChange={(e) => setCancelReason(e.detail.value!)}
+                                className="modal-input"
+                                placeholder="Escribe el motivo aquí"
+                            />
+                        </IonItem>
 
-    <div className="modal-buttons">
-      <IonButton
-        expand="full"
-        className="confirm-btn"
-        onClick={handleCancelPurchase}
-      >
-        Confirmar Cancelación
-      </IonButton>
-      <IonButton
-        expand="full"
-        color="light"
-        onClick={() => setCancelModalOpen(false)}
-        className="close-btn"
-      >
-        Cerrar
-      </IonButton>
-    </div>
-  </IonContent>
-</IonModal>
+                        <div className="modal-buttons">
+                            <IonButton
+                                expand="full"
+                                className="confirm-btn"
+                                onClick={handleCancelPurchase}
+                            >
+                                Confirmar Cancelación
+                            </IonButton>
+                            <IonButton
+                                expand="full"
+                                color="light"
+                                onClick={() => setCancelModalOpen(false)}
+                                className="close-btn"
+                            >
+                                Cerrar
+                            </IonButton>
+                        </div>
+                    </IonContent>
+                </IonModal>
 
 
                 <IonToast

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { IonContent, IonPage, IonInput, IonButton, IonAlert, IonLabel, IonHeader, IonToolbar, IonTitle, IonImg, IonText, IonCard, IonCardContent, IonSpinner, IonRow } from "@ionic/react";
 import axios from "axios";
 import { useParams, useHistory } from "react-router-dom";
@@ -16,6 +16,14 @@ const KeyVerifly: React.FC = () => {
     const [alertMessage, setAlertMessage] = useState("");
     const [alertColor, setAlertColor] = useState<"success" | "danger">("success");
     const [isLoading, setIsLoading] = useState(false);
+
+    useEffect(() => {
+        const ionPages = document.querySelectorAll('.ion-page');
+        ionPages.forEach(ionPage => {
+          // Elimina la clase 'ion-page-invisible' de todos los elementos con clase 'ion-page'
+          ionPage.classList.remove('ion-page-invisible', 'ion-page-hidden');
+        });
+      }, []);
 
     const handleSubmit = async () => {
         setIsLoading(true);

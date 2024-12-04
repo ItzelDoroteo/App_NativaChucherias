@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { IonPage, IonHeader, IonContent, IonTitle, IonInput, IonLabel, IonItem, IonButton, IonSelect, IonSelectOption, IonToast, IonLoading, IonRow, IonCol } from "@ionic/react";
 import * as Yup from "yup";
 import axios from "axios";
@@ -61,6 +61,14 @@ const Register: React.FC = () => {
   const [errors, setErrors] = useState<any>({});
   const [showToast, setShowToast] = useState({ isOpen: false, message: "", color: "" });
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const ionPages = document.querySelectorAll('.ion-page');
+    ionPages.forEach(ionPage => {
+      // Elimina la clase 'ion-page-invisible' de todos los elementos con clase 'ion-page'
+      ionPage.classList.remove('ion-page-invisible', 'ion-page-hidden');
+    });
+  }, []);
 
   // Función para manejar cambios en los campos de entrada
   const handleInputChange = (e: any) => {

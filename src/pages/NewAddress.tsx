@@ -36,6 +36,14 @@ const NewAddress: React.FC = () => {
     setCustomerId(user?.customerId || null);
   }, [user]);
 
+  useEffect(() => {
+    const ionPages = document.querySelectorAll('.ion-page');
+    ionPages.forEach(ionPage => {
+      // Elimina la clase 'ion-page-invisible' de todos los elementos con clase 'ion-page'
+      ionPage.classList.remove('ion-page-invisible', 'ion-page-hidden');
+    });
+  }, []);
+
   interface AddressData {
     id: number;
     colonia: string;

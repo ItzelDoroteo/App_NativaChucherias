@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import './ListaProductos.css';
 import {
@@ -42,6 +42,14 @@ const ListaProductos: React.FC<ListaProductosProps> = ({ products }) => {
   if (!products.length) {
     return <div>No se encontraron productos.</div>;
   }
+
+  useEffect(() => {
+    const ionPages = document.querySelectorAll('.ion-page');
+    ionPages.forEach(ionPage => {
+      // Elimina la clase 'ion-page-invisible' de todos los elementos con clase 'ion-page'
+      ionPage.classList.remove('ion-page-invisible', 'ion-page-hidden');
+    });
+  }, []);
   
   const history = useHistory();
 

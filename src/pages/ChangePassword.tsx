@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { IonPage, IonContent, IonCard, IonCardHeader, IonCardTitle, IonLabel, IonInput, IonButton, IonText, IonLoading, IonAlert, IonHeader, IonToolbar, IonTitle, IonRow, IonImg, IonInputPasswordToggle } from "@ionic/react";
 import { useParams, useHistory } from "react-router-dom";
 import axios from "axios";
@@ -14,6 +14,14 @@ const ChangePassword = () => {
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
     const [showAlert, setShowAlert] = useState(false);
+
+    useEffect(() => {
+        const ionPages = document.querySelectorAll('.ion-page');
+        ionPages.forEach(ionPage => {
+          // Elimina la clase 'ion-page-invisible' de todos los elementos con clase 'ion-page'
+          ionPage.classList.remove('ion-page-invisible', 'ion-page-hidden');
+        });
+      }, []);
 
     // Validación de las contraseñas
     const validatePassword = () => {
@@ -74,7 +82,7 @@ const ChangePassword = () => {
                             <IonLabel position="stacked">Nueva Contraseña</IonLabel>
                             <IonInput
                                 value={password}
-                                onIonInput={(e) => setPassword(e.target.value)}
+                                onIonInput={(e) => setPassword(String(e.target.value))}
                                 type="password"
                                 placeholder="Introduce tu nueva contraseña"
                             >
@@ -86,7 +94,7 @@ const ChangePassword = () => {
                             <IonLabel position="stacked">Confirmar Contraseña</IonLabel>
                             <IonInput
                                 value={confirmPassword}
-                                onIonInput={(e) => setConfirmPassword(e.target.value)}
+                                onIonInput={(e) => setConfirmPassword(String(e.target.value))}
                                 type="password"
                                 placeholder="Confirma tu nueva contraseña"
                                 >

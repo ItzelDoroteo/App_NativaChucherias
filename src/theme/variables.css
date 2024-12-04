@@ -1,2 +1,17 @@
 /* For information on how to create your own theme, please see:
 http://ionicframework.com/docs/theming/ */
+
+
+/* Agregar estilo personalizado para la pantalla de carga */
+.ion-text-center img {
+    max-width: 200px;
+    margin-top: 20%;
+  }
+  
+  .ion-text-center .spinner {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  

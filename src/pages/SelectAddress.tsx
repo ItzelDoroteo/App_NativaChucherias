@@ -63,6 +63,14 @@ const SelectAddress: React.FC = () => {
     }
   }, [user]);
 
+  useEffect(() => {
+    const ionPages = document.querySelectorAll('.ion-page');
+    ionPages.forEach(ionPage => {
+      // Elimina la clase 'ion-page-invisible' de todos los elementos con clase 'ion-page'
+      ionPage.classList.remove('ion-page-invisible', 'ion-page-hidden');
+    });
+  }, []);
+
   const handleSelectDomicilio = async (domicilioId: number, cp: string) => {
     try {
       const response = await axios.get(`https://backend-c-r-production.up.railway.app/address/get-colonias/${cp}`);

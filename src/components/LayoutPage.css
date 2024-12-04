@@ -1,6 +1,5 @@
 .custom-toolbar {
     --background: #f8c6f9;
-    --color: black;
     height: 75px;
     display: flex;
     align-items: center;

@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">Chucherias y Regalos</string>
-    <string name="title_activity_main">Chucherias y Regalos</string>
-    <string name="package_name">io.ionic.starter</string>
-    <string name="custom_url_scheme">io.ionic.starter</string>
+    <string name="app_name">Chucherias &amp; Regalos</string>
+    <string name="title_activity_main">Chucherias &amp; Regalos</string>
+    <string name="package_name">com.chucherias.com</string>
+    <string name="custom_url_scheme">com.chucherias.com</string>
 </resources>

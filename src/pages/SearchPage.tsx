@@ -40,6 +40,14 @@ const SearchPage: React.FC = () => {
     fetchProducts();
   }, [term]); // Dependencia del término de búsqueda
 
+  useEffect(() => {
+    const ionPages = document.querySelectorAll('.ion-page');
+    ionPages.forEach(ionPage => {
+      // Elimina la clase 'ion-page-invisible' de todos los elementos con clase 'ion-page'
+      ionPage.classList.remove('ion-page-invisible', 'ion-page-hidden');
+    });
+  }, []);
+
   const handleProductClick = (productId: number) => {
     history.push(`/product/${productId}`);
   };

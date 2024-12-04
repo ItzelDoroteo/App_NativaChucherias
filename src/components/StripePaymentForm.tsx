@@ -1,5 +1,5 @@
 // StripePaymentForm.tsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { CardNumberElement, CardExpiryElement, CardCvcElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { IonButton, IonToast } from '@ionic/react';
 import axios from 'axios';
@@ -20,6 +20,14 @@ const StripePaymentForm: React.FC<{ onSuccess: () => void }> = ({ onSuccess }) =
     // Estados para manejar las notificaciones
     const [showToast, setShowToast] = useState(false);
     const [toastMessage, setToastMessage] = useState('');
+
+    useEffect(() => {
+        const ionPages = document.querySelectorAll('.ion-page');
+        ionPages.forEach(ionPage => {
+          // Elimina la clase 'ion-page-invisible' de todos los elementos con clase 'ion-page'
+          ionPage.classList.remove('ion-page-invisible', 'ion-page-hidden');
+        });
+      }, []);
 
     const handlePayment = async () => {
 

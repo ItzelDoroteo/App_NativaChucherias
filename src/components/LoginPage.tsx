@@ -1,5 +1,5 @@
 // src/pages/LoginPage.tsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { IonContent, IonInput, IonButton, IonToast, IonPage, IonLabel, IonImg, IonHeader, IonTitle, IonToolbar, IonInputPasswordToggle, IonRow, IonRouterLink } from '@ionic/react';
 import axios from 'axios';
 import { useAuth } from '../contexts/AuthContext';
@@ -13,6 +13,14 @@ const LoginPage: React.FC = () => {
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
   const history = useHistory();
+
+  useEffect(() => {
+    const ionPages = document.querySelectorAll('.ion-page');
+    ionPages.forEach(ionPage => {
+      // Elimina la clase 'ion-page-invisible' de todos los elementos con clase 'ion-page'
+      ionPage.classList.remove('ion-page-invisible', 'ion-page-hidden');
+    });
+  }, []);
 
   const handleLogin = async () => {
     try {

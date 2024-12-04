@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   IonContent,
   IonHeader,
@@ -60,6 +60,14 @@ const MainLayout: React.FC = () => {
   const [showToast, setShowToast] = useState(false);
   const [loading, setLoading] = useState(false); // Controla el estado del spinner
   const history = useHistory();
+
+  useEffect(() => {
+    const ionPages = document.querySelectorAll('.ion-page');
+    ionPages.forEach(ionPage => {
+      // Elimina la clase 'ion-page-invisible' de todos los elementos con clase 'ion-page'
+      ionPage.classList.remove('ion-page-invisible', 'ion-page-hidden');
+    });
+  }, []);
 
   const cierreSession = async () => {
     try {

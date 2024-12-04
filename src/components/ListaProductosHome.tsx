@@ -64,6 +64,14 @@ const ListaProductos: React.FC = () => {
     fetchProducts();
   }, []);
 
+  useEffect(() => {
+    const ionPages = document.querySelectorAll('.ion-page');
+    ionPages.forEach(ionPage => {
+      // Elimina la clase 'ion-page-invisible' de todos los elementos con clase 'ion-page'
+      ionPage.classList.remove('ion-page-invisible', 'ion-page-hidden');
+    });
+  }, []);
+
   // Función para redirigir a la página de detalles del producto
   const handleProductClick = (productId: number) => {
     history.push(`/product/${productId}`);

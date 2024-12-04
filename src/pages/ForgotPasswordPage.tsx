@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
     IonPage,
     IonHeader,
@@ -38,6 +38,14 @@ const ForgotPasswordPage = () => {
     const [showToast, setShowToast] = useState(false);
     const [toastMessage, setToastMessage] = useState("");
     const router = useIonRouter();
+
+    useEffect(() => {
+        const ionPages = document.querySelectorAll('.ion-page');
+        ionPages.forEach(ionPage => {
+          // Elimina la clase 'ion-page-invisible' de todos los elementos con clase 'ion-page'
+          ionPage.classList.remove('ion-page-invisible', 'ion-page-hidden');
+        });
+      }, []);
 
     const handleBack = () => {
         router.goBack();

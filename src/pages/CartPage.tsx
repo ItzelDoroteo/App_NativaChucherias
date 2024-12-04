@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   IonPage, IonContent, IonList, IonItem, IonLabel, IonButton, IonIcon, IonText, IonFooter, IonThumbnail, IonSpinner, IonChip,
   IonHeader, IonAlert, IonCard, IonCardContent, IonGrid
@@ -13,6 +13,14 @@ const CartPage: React.FC = () => {
   const { cart, updateItem, removeItem, clearCart, isLoading } = useCart();
   const history = useHistory();
   const [showAlert, setShowAlert] = useState(false); // Estado para manejar la alerta
+
+  useEffect(() => {
+    const ionPages = document.querySelectorAll('.ion-page');
+    ionPages.forEach(ionPage => {
+      // Elimina la clase 'ion-page-invisible' de todos los elementos con clase 'ion-page'
+      ionPage.classList.remove('ion-page-invisible', 'ion-page-hidden');
+    });
+  }, []);
 
   // Función para incrementar la cantidad
   const increaseQuantity = (productoId: number, cantidad: number) => {

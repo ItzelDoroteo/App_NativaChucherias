@@ -47,6 +47,14 @@ const DetalleProducto: React.FC = () => {
     const history = useHistory();
 
     useEffect(() => {
+        const ionPages = document.querySelectorAll('.ion-page');
+        ionPages.forEach(ionPage => {
+          // Elimina la clase 'ion-page-invisible' de todos los elementos con clase 'ion-page'
+          ionPage.classList.remove('ion-page-invisible', 'ion-page-hidden');
+        });
+      }, []);
+
+    useEffect(() => {
         const fetchProduct = async () => {
             try {
                 const response = await axios.get(`https://backend-c-r-production.up.railway.app/products/${productId}`);

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useHistory } from 'react-router';
 import { IonCard, IonCardContent, IonCardHeader, IonImg, IonGrid, IonRow, IonCol, IonButton, IonText, IonContent } from '@ionic/react';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -25,6 +25,14 @@ const ProductCarousel: React.FC<ProductCarouselProps> = ({ products }) => {
   const handleProductClick = (productId: number) => {
     history.push(`/product/${productId}`);
   };
+
+  useEffect(() => {
+    const ionPages = document.querySelectorAll('.ion-page');
+    ionPages.forEach(ionPage => {
+      // Elimina la clase 'ion-page-invisible' de todos los elementos con clase 'ion-page'
+      ionPage.classList.remove('ion-page-invisible', 'ion-page-hidden');
+    });
+  }, []);
 
   return (
     <Swiper
