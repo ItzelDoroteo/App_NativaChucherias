@@ -1,40 +1,12 @@
 import React, { useState, useEffect } from "react";
 import {
-  IonContent,
-  IonHeader,
-  IonMenu,
-  IonMenuToggle,
-  IonToolbar,
-  IonTitle,
-  IonPage,
-  IonTabs,
-  IonTabBar,
-  IonTabButton,
-  IonIcon,
-  IonLabel,
-  IonRouterOutlet,
-  IonCol,
-  IonRow,
-  IonImg,
-  IonItem,
-  IonList,
-  IonToast,
-  IonRouterLink,
-  IonLoading,
-  IonAvatar,
+  IonContent, IonHeader, IonMenu, IonMenuToggle, IonToolbar, IonPage, IonTabs, IonTabBar, IonTabButton, IonIcon, IonLabel, IonRouterOutlet, IonImg, IonItem, IonList, IonToast, IonRouterLink, IonLoading, IonAvatar,
 } from "@ionic/react";
 import {
-  home,
-  list,
-  person,
-  logIn,
-  logOut,
-  helpCircleOutline,
-  timeOutline,
-  cartOutline,
-  personAddOutline,
+  home, list, person, logIn, logOut, helpCircleOutline, timeOutline, cartOutline, personAddOutline,
 } from "ionicons/icons";
-import { Redirect, Route, useHistory } from "react-router-dom";
+import { Redirect, Route, useHistory, useLocation } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
 import Tab1 from "../pages/Tab1";
 import Tab2 from "../pages/Tab2";
 import Tab3 from "../pages/Tab3";
@@ -47,7 +19,6 @@ import CartPage from "../pages/CartPage";
 import SelectAddress from "../pages/SelectAddress";
 import SelectPayment from "../pages/SelectPayment";
 import PurchaseHistory from "../pages/PurchaseHistory";
-import { useAuth } from "../contexts/AuthContext";
 import Register from "../pages/Register";
 import ForgotPasswordPage from '../pages/ForgotPasswordPage';
 import KeyVerifly from '../pages/KeyVerifly';
@@ -58,8 +29,9 @@ import "./MainLayout.css";
 const MainLayout: React.FC = () => {
   const { user, logout } = useAuth();
   const [showToast, setShowToast] = useState(false);
-  const [loading, setLoading] = useState(false); // Controla el estado del spinner
+  const [loading, setLoading] = useState(false);
   const history = useHistory();
+  const location = useLocation();
 
   useEffect(() => {
     const ionPages = document.querySelectorAll('.ion-page');
@@ -74,16 +46,20 @@ const MainLayout: React.FC = () => {
       logout();
       localStorage.removeItem("cart");
       setShowToast(true);
-      history.push("/login");
-    } catch (error: any) {
-      console.log(error);
+      if (location.pathname !== "/login") {
+        history.push("/login");
+      }
+    } catch (error) {
+      console.error("Error al cerrar sesión:", error);
     }
   };
 
-  history.listen((location, action) => {
+  useEffect(() => {
+    const unlisten = history.listen(() => setLoading(false));
     setLoading(true);
-    setTimeout(() => setLoading(false), 1000);
-  });
+
+    return () => unlisten();
+  }, [history]);
 
   return (
     <>
@@ -104,7 +80,8 @@ const MainLayout: React.FC = () => {
                 <IonAvatar slot="start">
                   <img
                     alt="Banner usuario"
-                    src={user ? user.imagen : "/assets/Images/user.jpg"}
+                    src={user?.imagen || "/assets/Images/user.jpg"}
+                    onError={(e) => (e.currentTarget.src = "/assets/Images/user.jpg")}
                   />
                 </IonAvatar>
                 <IonLabel>
@@ -169,8 +146,8 @@ const MainLayout: React.FC = () => {
           <IonRouterOutlet>
             <Route exact path="/tab1" component={Tab1} />
             <Route exact path="/tab2" component={Tab2} />
-            <Route exact path="/tab3" component={Tab3}>
-              {!user && <Redirect to="/login" />}
+            <Route exact path="/tab3">
+              {user ? <Tab3 /> : <Redirect to="/login" />}
             </Route>
             <Route exact path="/tab4" component={Tab4} />
             <Route exact path="/cart" component={CartPage} />
@@ -212,22 +189,14 @@ const MainLayout: React.FC = () => {
               <IonIcon icon={helpCircleOutline} />
               <IonLabel>Ayuda</IonLabel>
             </IonTabButton>
-            {!user ? (
-              <IonTabButton tab="tab3" href="/login">
-                <IonIcon icon={person} />
-                <IonLabel>Iniciar sesión</IonLabel>
-              </IonTabButton>
-            ) : (
-              <IonTabButton tab="tab3" href="/tab3">
-                <IonIcon icon={person} />
-                <IonLabel>Mi cuenta</IonLabel>
-              </IonTabButton>
-            )}
+            <IonTabButton tab="tab3" href={user ? "/tab3" : "/login"}>
+              <IonIcon icon={person} />
+              <IonLabel>{user ? "Mi cuenta" : "Iniciar sesión"}</IonLabel>
+            </IonTabButton>
           </IonTabBar>
         </IonTabs>
       </IonPage>
 
-      {/* IonToast para mostrar mensaje de cierre de sesión */}
       <IonToast
         isOpen={showToast}
         onDidDismiss={() => setShowToast(false)}
@@ -235,7 +204,6 @@ const MainLayout: React.FC = () => {
         duration={3000}
       />
 
-      {/* IonLoading para mostrar el spinner de carga */}
       <IonLoading isOpen={loading} message={"Cargando..."} duration={5000} />
     </>
   );
