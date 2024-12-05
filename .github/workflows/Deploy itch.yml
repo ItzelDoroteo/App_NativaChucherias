@@ -31,23 +31,25 @@ jobs:
       - name: Build Ionic App
         run: ionic build  # Cambiar según el tipo de aplicación
 
-      # 4. Preparar el archivo para subir a Itch.io
-      - name: Prepare for Itch.io
-        run: |
-          mkdir release
-          zip -r release/my-app.zip ./dist  # Para HTML5
-          # Para APK:
-          # cp android/app/build/outputs/apk/release/app-release.apk release/my-app.apk
-
-      # 5. Descargar e instalar Butler
+      # Paso 3: Descargar Butler desde broth (servidor recomendado)
       - name: Download Butler
         run: |
-          curl -L https://broth.itch.ovh/butler/linux-amd64/LATEST/archive/default -o butler
+          curl -L -o butler.zip https://broth.itch.ovh/butler/linux-amd64/LATEST/archive/default
+          unzip butler.zip
           chmod +x butler
 
-      # 6. Subir a Itch.io
-      - name: Upload to Itch.io
-        env:
-          BUTLER_CREDENTIALS: YHtiCsYLArO6LNDY6EvSvOHu6FAxqIO4cUIp9w5c
+      # Paso 4: Verificar la instalación de Butler
+      - name: Butler version check
         run: |
-          ./butler push release/my-app.zip username/game-name:channel
+          ./butler -V
+
+      # Paso 5: Empaquetar el contenido de dist/
+      - name: Prepare for Itch.io
+        run: |
+          mkdir -p release
+          zip -r release/my-app.zip dist/*  # Empaqueta todo el contenido de dist/
+
+      # Paso 6: Empujar el archivo a Itch.io usando Butler
+      - name: Push to Itch.io
+        run: |
+          ./butler push release/my-app.zip username/game-name:channel --api-key YHtiCsYLArO6LNDY6EvSvOHu6FAxqIO4cUIp9w5c
