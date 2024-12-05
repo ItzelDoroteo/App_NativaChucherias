@@ -19,7 +19,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 18
 
       # 3. Instalar dependencias y construir
       - name: Install dependencies
@@ -28,28 +28,73 @@ jobs:
       - name: Install Ionic CLI
         run: npm install -g @ionic/cli
 
-      - name: Build Ionic App
-        run: ionic build  # Cambiar según el tipo de aplicación
+      # 4. Instalar Capacitor y añadir plataforma Android
+      - name: Install Capacitor and add Android platform
+        run: |
+          if ! npx cap ls | grep -q "android"; then
+            ionic capacitor add android
+          else
+            echo "Android platform already added"
+          fi
 
-      # Paso 3: Descargar Butler desde broth (servidor recomendado)
+      # 5. Sincronizar Capacitor
+      - name: Sync Capacitor
+        run: |
+          ionic capacitor sync
+
+      # 6. Instalar Java 17
+      - name: Install Java 17
+        run: |
+          sudo apt update
+          sudo apt install -y openjdk-17-jdk
+
+      # 7. Establecer JAVA_HOME y actualizar el PATH
+      - name: Set JAVA_HOME
+        run: |
+          echo "JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64" >> $GITHUB_ENV
+          echo "PATH=$JAVA_HOME/bin:$PATH" >> $GITHUB_ENV
+
+      # 8. Verificar la versión de Java
+      - name: Check Java version
+        run: java -version
+
+      # 9. Asegurar permisos de ejecución para gradlew
+      - name: Ensure gradlew is executable
+        run: |
+          chmod +x android/gradlew
+
+      # 10. Construir el APK usando Gradle
+      - name: Build APK using Gradle
+        run: |
+          cd android
+          ./gradlew assembleRelease
+
+      # 11. Listar el directorio de salida del APK
+      - name: List APK output directory
+        run: |
+          ls -la android/app/build/outputs/apk/release/
+
+      # 12. Descargar Butler desde broth (servidor recomendado)
       - name: Download Butler
         run: |
           curl -L -o butler.zip https://broth.itch.ovh/butler/linux-amd64/LATEST/archive/default
           unzip butler.zip
           chmod +x butler
 
-      # Paso 4: Verificar la instalación de Butler
+      # 13. Verificar la instalación de Butler
       - name: Butler version check
         run: |
           ./butler -V
 
-      # Paso 5: Empaquetar el contenido de dist/
-      - name: Prepare for Itch.io
+      # 14. Empaquetar el archivo APK generado
+      - name: Prepare APK for Itch.io
         run: |
-          mkdir -p release
-          zip -r release/my-app.zip dist/*  # Empaqueta todo el contenido de dist/
+            mkdir -p debug
+            cp android/app/build/outputs/apk/release/app-release-unsigned.apk debug/my-app.apk
 
-      # Paso 6: Empujar el archivo a Itch.io usando Butler
+      # 15. Empujar el archivo APK a Itch.io usando Butler
       - name: Push to Itch.io
+        env:
+          BUTLER_API_KEY: ${{ secrets.ITCH_API_KEY}}
         run: |
-          ./butler push release/my-app.zip username/game-name:channel --api-key YHtiCsYLArO6LNDY6EvSvOHu6FAxqIO4cUIp9w5c
+          ./butler push debug/my-app.apk itzeldoroteo/chucheriasyregalos:android
