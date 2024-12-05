@@ -90,11 +90,11 @@ jobs:
       - name: Prepare APK for Itch.io
         run: |
             mkdir -p debug
-            cp android/app/build/outputs/apk/release/app-release-unsigned.apk debug/my-app.apk
+            cp android/app/build/outputs/apk/release/app-release-unsigned.apk debug/chucherias.apk
 
       # 15. Empujar el archivo APK a Itch.io usando Butler
       - name: Push to Itch.io
         env:
           BUTLER_API_KEY: ${{ secrets.ITCH_API_KEY}}
         run: |
-          ./butler push debug/my-app.apk itzeldoroteo/chucheriasyregalos:android
+          ./butler push debug/chucherias.apk itzeldoroteo/chucheriasyregalos:android
