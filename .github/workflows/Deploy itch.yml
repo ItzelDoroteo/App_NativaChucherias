@@ -35,7 +35,7 @@ jobs:
       - name: Prepare for Itch.io
         run: |
           mkdir release
-          zip -r release/my-app.zip ./www  # Para HTML5
+          zip -r release/my-app.zip ./dist  # Para HTML5
           # Para APK:
           # cp android/app/build/outputs/apk/release/app-release.apk release/my-app.apk
 
