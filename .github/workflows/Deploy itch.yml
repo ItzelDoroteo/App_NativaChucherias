@@ -25,6 +25,9 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Install Ionic CLI
+        run: npm install -g @ionic/cli
+
       - name: Build Ionic App
         run: ionic build  # Cambiar según el tipo de aplicación
 
