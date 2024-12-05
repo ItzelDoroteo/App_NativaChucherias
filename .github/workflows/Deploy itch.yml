@@ -1,0 +1,50 @@
+name: Build and Deploy to Itch.io
+
+on:
+  push:
+    branches:
+      - main  # Despliegue en la rama principal
+
+jobs:
+  deploy:
+    name: Build and Deploy to Itch.io
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Checkout del código
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # 2. Configurar Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      # 3. Instalar dependencias y construir
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build Ionic App
+        run: ionic build  # Cambiar según el tipo de aplicación
+
+      # 4. Preparar el archivo para subir a Itch.io
+      - name: Prepare for Itch.io
+        run: |
+          mkdir release
+          zip -r release/my-app.zip ./www  # Para HTML5
+          # Para APK:
+          # cp android/app/build/outputs/apk/release/app-release.apk release/my-app.apk
+
+      # 5. Descargar e instalar Butler
+      - name: Download Butler
+        run: |
+          curl -L https://itch.io/butler/linux-amd64/latest/butler -o butler
+          chmod +x butler
+
+      # 6. Subir a Itch.io
+      - name: Upload to Itch.io
+        env:
+          BUTLER_CREDENTIALS: YHtiCsYLArO6LNDY6EvSvOHu6FAxqIO4cUIp9w5c
+        run: |
+          ./butler push release/my-app.zip username/game-name:channel

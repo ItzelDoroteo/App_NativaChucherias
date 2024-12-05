@@ -54,22 +54,15 @@ jobs:
     runs-on: ubuntu-latest
     needs: test  # Dependencia del trabajo de prueba
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+      - name: Buil Ionic App
+        run: ionic build
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '16'
+      - name: Copy to Android
+        run: ionic cap copy
 
-      - name: Install dependencies
-        run: npm install
+      - name: Sync with Capacitor
+        run: ionic cap sync android
 
-      - name: Lint code
-        run: npm run lint
-
-      - name: Build Ionic app
-        run: npm run build
   
   
   
