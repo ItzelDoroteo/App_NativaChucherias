@@ -42,7 +42,7 @@ jobs:
       # 5. Descargar e instalar Butler
       - name: Download Butler
         run: |
-          curl -L https://itch.io/butler/linux-amd64/latest/butler -o butler
+          curl -L https://broth.itch.ovh/butler/linux-amd64/LATEST/archive/default -o butler
           chmod +x butler
 
       # 6. Subir a Itch.io
